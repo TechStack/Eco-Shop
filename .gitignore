@@ -34,9 +34,15 @@ server.properties
 crash-reports/crash-2015-12-29_08.16.20-server.txt
 usercache.json
 eclipse/.metadata/.plugins/org.eclipse.core.resources/.projects/.org.eclipse.jdt.core.external.folders/.markers.snap
-eclipse/.metadata/
+eclipse/.metadata/*
 eclipse/.metadata/.plugins/org.eclipse.core.resources/.projects/.org.eclipse.jdt.core.external.folders/.markers.snap
 eclipse/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/.markers.snap
 eclipse/.metadata/.plugins/org.eclipse.core.resources/.projects/.org.eclipse.jdt.core.external.folders/.markers.snap
+eclipse/.metadata/.plugins/org.eclipse.jdt.core/286606776.index
+eclipse/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+eclipse/.metadata/.plugins/org.eclipse.jdt.core/286606776.index
+eclipse/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/.syncinfo.snap
+eclipse/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/.markers.snap
+*.snap
 eclipse/.metadata/.plugins/org.eclipse.jdt.core/286606776.index
 eclipse/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
