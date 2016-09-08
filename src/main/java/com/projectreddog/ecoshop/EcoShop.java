@@ -1,6 +1,9 @@
-package com.example.examplemod;
+package com.projectreddog.ecoshop;
 
-import net.minecraft.init.Blocks;
+import com.projectreddog.ecoshop.init.ModBlocks;
+import com.projectreddog.ecoshop.init.ModItems;
+import com.projectreddog.ecoshop.reference.Reference;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -8,13 +11,15 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 @Mod(modid = EcoShop.MODID, version = EcoShop.VERSION)
 public class EcoShop
 {
-    public static final String MODID = "examplemod";
+    public static final String MODID = Reference.MODID;
     public static final String VERSION = "1.0";
     
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-		// some example code
-        System.out.println("DIRT BLOCK >> "+Blocks.dirt.getUnlocalizedName());
+
+    	ModItems.init();
+		ModBlocks.init();
+        
     }
 }
