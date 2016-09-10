@@ -13,6 +13,7 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class Eco {
+	// WILL LIKELY NOT BE USED
 	private static HashMap<UUID, Float> playerAmounts;
 	private String fileName = "Funds.txt";
 
@@ -37,10 +38,13 @@ public class Eco {
 
 					line = in.readLine();
 				}
+				in.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+
 			}
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
