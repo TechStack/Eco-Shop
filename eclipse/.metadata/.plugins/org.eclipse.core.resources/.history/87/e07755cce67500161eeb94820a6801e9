@@ -1,5 +1,0 @@
-package com.projectreddog.ecoshop;
-
-public class Reference {
-public static final String MODID ="ECOSHOP"; 
-}

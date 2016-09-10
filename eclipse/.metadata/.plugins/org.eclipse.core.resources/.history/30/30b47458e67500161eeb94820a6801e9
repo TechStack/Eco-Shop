@@ -1,7 +1,0 @@
-package com.example.examplemod.init;
-
-public class ModBlocks {
-	public static final BlockSellShop= new BlockSellShop();
-	public static final BlockBuyShop = new BlockBuyShop();
-	
-}
