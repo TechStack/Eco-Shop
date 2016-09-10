@@ -2,6 +2,7 @@ package com.projectreddog.ecoshop;
 
 import com.projectreddog.ecoshop.init.ModBlocks;
 import com.projectreddog.ecoshop.init.ModItems;
+import com.projectreddog.ecoshop.init.ModNetwork;
 import com.projectreddog.ecoshop.init.ModRecipies;
 import com.projectreddog.ecoshop.proxy.IProxy;
 import com.projectreddog.ecoshop.reference.Reference;
@@ -25,7 +26,7 @@ public class EcoShop {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
 		ModItems.init();
-
+		ModNetwork.init();
 		ModBlocks.init();
 	}
 

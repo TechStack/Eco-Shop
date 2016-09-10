@@ -7,7 +7,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class ModNetwork {
 
-	public void Init() {
+	public static void init() {
 		NetworkRegistry.INSTANCE.registerGuiHandler(EcoShop.instance, new GuiHandler());
 
 	}
