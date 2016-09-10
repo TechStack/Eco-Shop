@@ -1,0 +1,9 @@
+package com.example.examplemod.init;
+
+
+GameRegistry.ObjectHolder(Referecne.MODID)
+public class ModBlocks {
+	public static final BlockSellShop= new BlockSellShop();
+	public static final BlockBuyShop = new BlockBuyShop();
+	
+}

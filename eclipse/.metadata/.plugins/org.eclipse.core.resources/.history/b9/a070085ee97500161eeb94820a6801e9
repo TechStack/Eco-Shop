@@ -1,0 +1,9 @@
+package com.projectreddog.ecoshop.init;
+
+public class ModItems {
+	public static final ItemCheck bulldozer = new ItemCheck();
+	
+	public static void init (){
+		
+	}
+}

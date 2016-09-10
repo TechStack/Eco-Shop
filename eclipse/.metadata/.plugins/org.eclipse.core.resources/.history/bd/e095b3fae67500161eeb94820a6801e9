@@ -1,0 +1,9 @@
+package com.projectreddog.ecoshop.init;
+
+
+GameRegistry.ObjectHolder(Referecne.MODID)
+public class ModBlocks {
+	public static final BlockSellShop BlockSellShop= new BlockSellShop();
+	public static final BlockBuyShop BlockBuyShop = new BlockBuyShop();
+	
+}
