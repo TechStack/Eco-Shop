@@ -58,14 +58,11 @@ public class ContainerBuyShop extends Container {
 			for (int j = 0; j < 9; j++) {
 				if (i == 0 || i == 1 || i == 2) {
 					if (j == 3 || j == 7 || (j == 8 && i == 2)) {
-						// none
-
 					}
 				} else {
 					if (j == 3) {
-						// none
 					} else {
-						// addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 18 + i * 18));
+						addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 18 + i * 18));
 					}
 				}
 			}
