@@ -8,7 +8,20 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedInventory {
 	protected ItemStack[] inventory;
-
+	// upper left (accept this owner area)
+	//0-8
+	// Middle top owner
+	//9-17
+	// upgrade slots
+	//18-19
+	// customer slots left 
+    //20-28
+	// customer slots right
+    //29-43
+	// Owner only STOCK area
+	//44-97
+	
+	
 	public TileEntityBuyShop() {
 		inventory = new ItemStack[98];
 

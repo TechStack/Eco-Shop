@@ -14,6 +14,7 @@ public class Reference {
 	public static final String ITEM_CREDIT_ONEHUNDRED = "CREDIT_ONEHUNDRED";
 	public static final String ITEM_CREDIT_FIVEHUNDRED = "CREDIT_FIVEHUNDRED";
 	public static final String ITEM_CREDIT_ONETHOUSAND = "CREDIT_ONETHOUSAND";
+	public static final String ITEM_UPGRADE_UNLIMITED_INVENTORY = "UPGRADE_UNLIMITED_INVENTORY";
 
 	public static final String BLOCK_SELLSHOP = "SELLSHOP";
 	public static final String BLOCK_BUYSHOP = "BUYSHOP";
