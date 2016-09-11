@@ -21,4 +21,8 @@ public class Reference {
 
 	public static final int GUI_BLOCK_BUY_SHOP_OWNER = 0;
 	public static final int GUI_BLOCK_BUY_SHOP = 1;
+	
+	
+	public static final String ECOSHOP_MOD_NBT_PREFIX = "ECO_SHOP_NBT_";
+
 }

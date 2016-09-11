@@ -1,9 +1,14 @@
 package com.projectreddog.ecoshop.tileentities;
 
+import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
+import com.projectreddog.ecoshop.reference.Reference;
+
 import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedInventory {
@@ -108,8 +113,15 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
+	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
 		// TODO Auto-generated method stub
+		if (slot== 18 || slot ==19){
+			if (itemStack.getItem() instanceof ItemEcoShopUpgrade){
+				return true;
+			}else{
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -134,6 +146,43 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
 	@Override
 	public void tick() {
 		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+
+		super.readFromNBT(compound);
+
+		// inventory
+
+		NBTTagList tagList = compound.getTagList(Reference.ECOSHOP_MOD_NBT_PREFIX + "Inventory", compound.getId());
+		for (int i = 0; i < tagList.tagCount(); i++) {
+			NBTTagCompound tag = (NBTTagCompound) tagList.getCompoundTagAt(i);
+			byte slot = tag.getByte("Slot");
+			if (slot >= 0 && slot < inventory.length) {
+				inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
+			}
+		}
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+
+		// inventory
+
+		NBTTagList itemList = new NBTTagList();
+		for (int i = 0; i < inventory.length; i++) {
+			ItemStack stack = inventory[i];
+			if (stack != null) {
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("Slot", (byte) i);
+				stack.writeToNBT(tag);
+				itemList.appendTag(tag);
+			}
+		}
+		compound.setTag(Reference.ECOSHOP_MOD_NBT_PREFIX + "Inventory", itemList);
 
 	}
 

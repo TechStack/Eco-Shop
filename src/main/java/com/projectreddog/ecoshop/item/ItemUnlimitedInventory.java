@@ -10,6 +10,7 @@ public class ItemUnlimitedInventory extends ItemEcoShopUpgrade {
 		this.setUnlocalizedName(Reference.ITEM_UPGRADE_UNLIMITED_INVENTORY);
 		this.setTextureName(Reference.MODID + ":" + Reference.ITEM_UPGRADE_UNLIMITED_INVENTORY);
 		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setMaxStackSize(1);
 
 	}
 
