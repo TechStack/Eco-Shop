@@ -4,20 +4,20 @@ import com.projectreddog.ecoshop.reference.Reference;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockEcoShop extends Block {
+public class BlockContainerEcoShop extends BlockContainer {
 
-	protected BlockEcoShop(Material p_i45394_1_) {
+	protected BlockContainerEcoShop(Material p_i45394_1_) {
 		super(p_i45394_1_);
 		// TODO Auto-generated constructor stub
 	}
 
-	protected BlockEcoShop() {
+	protected BlockContainerEcoShop() {
 		this(Material.rock);
 	}
 

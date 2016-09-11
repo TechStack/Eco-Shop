@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockBuyShop extends BlockEcoShop {
+public class BlockBuyShop extends BlockContainerEcoShop {
 
 	public BlockBuyShop() {
 		super();

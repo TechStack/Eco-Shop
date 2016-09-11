@@ -2,7 +2,7 @@ package com.projectreddog.ecoshop.block;
 
 import com.projectreddog.ecoshop.reference.Reference;
 
-public class BlockSellShop extends BlockEcoShop {
+public class BlockSellShop extends BlockContainerEcoShop {
 
 	public BlockSellShop() {
 		super();

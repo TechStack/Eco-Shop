@@ -1,9 +1,12 @@
 package com.projectreddog.ecoshop.client.gui;
 
+import com.projectreddog.ecoshop.container.ContainerBuyShop;
 import com.projectreddog.ecoshop.reference.Reference;
+import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class GuiHandler implements IGuiHandler {
@@ -15,7 +18,11 @@ public class GuiHandler implements IGuiHandler {
 		if (ID == Reference.GUI_BLOCK_SELL_SHOP) {
 
 		} else if (ID == Reference.GUI_BLOCK_BUY_SHOP) {
+			TileEntity entity = world.getTileEntity(x, y, z);
+			if (entity instanceof TileEntityBuyShop) {
 
+				return new ContainerBuyShop(player.inventory, (TileEntityBuyShop) entity);
+			}
 		}
 		return null;
 	}
@@ -26,7 +33,12 @@ public class GuiHandler implements IGuiHandler {
 		if (ID == Reference.GUI_BLOCK_SELL_SHOP) {
 
 		} else if (ID == Reference.GUI_BLOCK_BUY_SHOP) {
-
+			TileEntity entity = world.getTileEntity(x, y, z);
+			if (entity != null) {
+				if (entity instanceof TileEntityBuyShop) {
+					return new GuiBuyShop(player.inventory, (TileEntityBuyShop) entity);
+				}
+			}
 		}
 		return null;
 	}

@@ -13,10 +13,63 @@ public class ContainerBuyShop extends Container {
 	public ContainerBuyShop(InventoryPlayer inventoryPlayer, TileEntityBuyShop buyShop) {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 18 + i * 18));
+				if (i == 0 || i == 1 || i == 2) {
+					if (j == 3 || j == 7 || (j == 8 && i == 2)) {
+						// none
+					} else {
+						// addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 9 + i * 18));
+					}
+				} else {
+					if (j == 3) {
+						// none
+					} else {
+						addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 18 + i * 18));
+					}
+				}
 			}
 		}
-		// commonly used vanilla code that adds the player's inventory
+		// upper left (accept this owner area)
+		addSlotToContainer(new Slot(buyShop, 0, 8 + 0 * 18, 9 + 0 * 18));
+		addSlotToContainer(new Slot(buyShop, 1, 8 + 1 * 18, 9 + 0 * 18));
+		addSlotToContainer(new Slot(buyShop, 2, 8 + 2 * 18, 9 + 0 * 18));
+		addSlotToContainer(new Slot(buyShop, 3, 8 + 0 * 18, 9 + 1 * 18));
+		addSlotToContainer(new Slot(buyShop, 4, 8 + 1 * 18, 9 + 1 * 18));
+		addSlotToContainer(new Slot(buyShop, 5, 8 + 2 * 18, 9 + 1 * 18));
+		addSlotToContainer(new Slot(buyShop, 6, 8 + 0 * 18, 9 + 2 * 18));
+		addSlotToContainer(new Slot(buyShop, 7, 8 + 1 * 18, 9 + 2 * 18));
+		addSlotToContainer(new Slot(buyShop, 8, 8 + 2 * 18, 9 + 2 * 18));
+
+		// Middle top
+		addSlotToContainer(new Slot(buyShop, 9, 8 + 4 * 18, 9 + 0 * 18));
+		addSlotToContainer(new Slot(buyShop, 10, 8 + 5 * 18, 9 + 0 * 18));
+		addSlotToContainer(new Slot(buyShop, 11, 8 + 6 * 18, 9 + 0 * 18));
+		addSlotToContainer(new Slot(buyShop, 12, 8 + 4 * 18, 9 + 1 * 18));
+		addSlotToContainer(new Slot(buyShop, 13, 8 + 5 * 18, 9 + 1 * 18));
+		addSlotToContainer(new Slot(buyShop, 14, 8 + 6 * 18, 9 + 1 * 18));
+		addSlotToContainer(new Slot(buyShop, 15, 8 + 4 * 18, 9 + 2 * 18));
+		addSlotToContainer(new Slot(buyShop, 16, 8 + 5 * 18, 9 + 2 * 18));
+		addSlotToContainer(new Slot(buyShop, 17, 8 + 6 * 18, 9 + 2 * 18));
+
+		//
+		addSlotToContainer(new Slot(buyShop, 9, 8 + 4 * 18, 9 + 0 * 18));
+		addSlotToContainer(new Slot(buyShop, 10, 8 + 5 * 18, 9 + 0 * 18));
+
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 9; j++) {
+				if (i == 0 || i == 1 || i == 2) {
+					if (j == 3 || j == 7 || (j == 8 && i == 2)) {
+						// none
+
+					}
+				} else {
+					if (j == 3) {
+						// none
+					} else {
+						// addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 18 + i * 18));
+					}
+				}
+			}
+		} // commonly used vanilla code that adds the player's inventory
 		bindPlayerInventory(inventoryPlayer);
 
 	}
