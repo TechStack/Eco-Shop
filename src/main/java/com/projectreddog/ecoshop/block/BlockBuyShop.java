@@ -38,6 +38,12 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 			}
 
 			return true;
+		} else if (te != null && playerIn.isSneaking()) {
+			// TODO NEED TO CHECK FOR OWNER
+			if (te instanceof TileEntityBuyShop) {
+				playerIn.openGui(EcoShop.instance, Reference.GUI_BLOCK_BUY_SHOP_OWNER, worldIn, x, y, z);
+			}
+			return true;
 		} else {
 			return false;
 		}

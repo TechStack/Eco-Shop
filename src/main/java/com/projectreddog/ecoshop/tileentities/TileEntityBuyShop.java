@@ -7,23 +7,40 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedInventory {
+	protected ItemStack[] inventory;
+
+	public TileEntityBuyShop() {
+		inventory = new ItemStack[97];
+
+	}
 
 	@Override
 	public int getSizeInventory() {
 		// TODO Auto-generated method stub
-		return 0;
+		return inventory.length;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int p_70301_1_) {
+	public ItemStack getStackInSlot(int slot) {
 		// TODO Auto-generated method stub
-		return null;
+		return inventory[slot];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_) {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemStack decrStackSize(int slot, int amt) {
+		ItemStack stack = getStackInSlot(slot);
+		if (stack != null) {
+			if (stack.stackSize <= amt) {
+				setInventorySlotContents(slot, null);
+			} else {
+				stack = stack.splitStack(amt);
+				if (stack.stackSize == 0) {
+					setInventorySlotContents(slot, null);
+				}
+
+			}
+		}
+		return stack;
 	}
 
 	@Override
@@ -33,9 +50,17 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
 	}
 
 	@Override
-	public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_) {
-		// TODO Auto-generated method stub
+	public void setInventorySlotContents(int slot, ItemStack stack) {
+		inventory[slot] = stack;
+		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
+			stack.stackSize = getInventoryStackLimit();
+		}
 
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
 	}
 
 	@Override
@@ -51,15 +76,10 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
+	public boolean isUseableByPlayer(EntityPlayer playerIn) {
 		// TODO Auto-generated method stub
-		return 0;
-	}
+		return playerIn.getDistanceSq(this.xCoord, this.yCoord, this.zCoord) < 64;
 
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -77,7 +97,7 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
 	@Override
 	public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

@@ -18,6 +18,6 @@ public class Reference {
 	public static final String BLOCK_SELLSHOP = "SELLSHOP";
 	public static final String BLOCK_BUYSHOP = "BUYSHOP";
 
-	public static final int GUI_BLOCK_SELL_SHOP = 0;
+	public static final int GUI_BLOCK_BUY_SHOP_OWNER = 0;
 	public static final int GUI_BLOCK_BUY_SHOP = 1;
 }

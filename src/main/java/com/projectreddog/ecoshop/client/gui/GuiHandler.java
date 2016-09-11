@@ -1,6 +1,7 @@
 package com.projectreddog.ecoshop.client.gui;
 
 import com.projectreddog.ecoshop.container.ContainerBuyShop;
+import com.projectreddog.ecoshop.container.ContainerBuyShopOwner;
 import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
@@ -15,8 +16,12 @@ public class GuiHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		// TODO Auto-generated method stub
 
-		if (ID == Reference.GUI_BLOCK_SELL_SHOP) {
+		if (ID == Reference.GUI_BLOCK_BUY_SHOP_OWNER) {
+			TileEntity entity = world.getTileEntity(x, y, z);
+			if (entity instanceof TileEntityBuyShop) {
 
+				return new ContainerBuyShopOwner(player.inventory, (TileEntityBuyShop) entity);
+			}
 		} else if (ID == Reference.GUI_BLOCK_BUY_SHOP) {
 			TileEntity entity = world.getTileEntity(x, y, z);
 			if (entity instanceof TileEntityBuyShop) {
@@ -30,8 +35,12 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		// TODO Auto-generated method stub
-		if (ID == Reference.GUI_BLOCK_SELL_SHOP) {
+		if (ID == Reference.GUI_BLOCK_BUY_SHOP_OWNER) {
+			TileEntity entity = world.getTileEntity(x, y, z);
+			if (entity instanceof TileEntityBuyShop) {
 
+				return new GuiBuyShopOwner(player.inventory, (TileEntityBuyShop) entity);
+			}
 		} else if (ID == Reference.GUI_BLOCK_BUY_SHOP) {
 			TileEntity entity = world.getTileEntity(x, y, z);
 			if (entity != null) {
