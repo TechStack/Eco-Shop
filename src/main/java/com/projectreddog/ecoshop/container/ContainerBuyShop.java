@@ -38,14 +38,48 @@ public class ContainerBuyShop extends Container {
 		addSlotToContainer(new Slot(buyShop, 18, 8 + 8 * 18, 9 + 0 * 18));
 		addSlotToContainer(new Slot(buyShop, 19, 8 + 8 * 18, 9 + 1 * 18));
 
-		for (int i = 3; i < 6; i++) {
-			for (int j = 0; j < 9; j++) {
-				if (j == 3) {
-				} else {
-					addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 18 + i * 18));
-				}
-			}
-		}
+		
+		
+		///
+		
+		//mid row far left (input) 
+		addSlotToContainer(new Slot(buyShop, 20, 8 + 0 * 18, 18 + 3 * 18));
+		addSlotToContainer(new Slot(buyShop, 21, 8 + 1 * 18, 18 + 3 * 18));
+		addSlotToContainer(new Slot(buyShop, 22, 8 + 2 * 18, 18 + 3 * 18));
+		addSlotToContainer(new Slot(buyShop, 23, 8 + 0 * 18, 18 + 4 * 18));
+		addSlotToContainer(new Slot(buyShop, 24, 8 + 1 * 18, 18 + 4 * 18));
+		addSlotToContainer(new Slot(buyShop, 25, 8 + 2 * 18, 18 + 4 * 18));
+		addSlotToContainer(new Slot(buyShop, 26, 8 + 0 * 18, 18 + 5 * 18));
+		addSlotToContainer(new Slot(buyShop, 27, 8 + 1 * 18, 18 + 5 * 18));
+		addSlotToContainer(new Slot(buyShop, 28, 8 + 2 * 18, 18 + 5 * 18));
+//
+		// mid row far rigth (output slots)
+		addSlotToContainer(new Slot(buyShop, 29, 8 + 4 * 18, 18 + 3 * 18));
+		addSlotToContainer(new Slot(buyShop, 30, 8 + 5 * 18, 18 + 3 * 18));
+		addSlotToContainer(new Slot(buyShop, 31, 8 + 6 * 18, 18 + 3 * 18));
+		addSlotToContainer(new Slot(buyShop, 32, 8 + 7 * 18, 18 + 3 * 18));
+		addSlotToContainer(new Slot(buyShop, 33, 8 + 8 * 18, 18 + 3 * 18));
+
+		addSlotToContainer(new Slot(buyShop, 34, 8 + 4 * 18, 18 + 4 * 18));
+		addSlotToContainer(new Slot(buyShop, 35, 8 + 5 * 18, 18 + 4 * 18));
+		addSlotToContainer(new Slot(buyShop, 36, 8 + 6 * 18, 18 + 4 * 18));
+		addSlotToContainer(new Slot(buyShop, 37, 8 + 7 * 18, 18 + 4 * 18));
+		addSlotToContainer(new Slot(buyShop, 38, 8 + 8 * 18, 18 + 4 * 18));
+
+		addSlotToContainer(new Slot(buyShop, 39, 8 + 4 * 18, 18 + 5 * 18));
+		addSlotToContainer(new Slot(buyShop, 40, 8 + 5 * 18, 18 + 5 * 18));
+		addSlotToContainer(new Slot(buyShop, 41, 8 + 6 * 18, 18 + 5 * 18));
+		addSlotToContainer(new Slot(buyShop, 42, 8 + 7 * 18, 18 + 5 * 18));
+		addSlotToContainer(new Slot(buyShop, 43, 8 + 8 * 18, 18 + 5 * 18));
+
+//		for (int i = 3; i < 6; i++) {
+//			for (int j = 0; j < 9; j++) {
+//				if (j == 3) {
+//				} else {
+//					addSlotToContainer(new Slot(buyShop, j + i * 9, 8 + j * 18, 18 + i * 18));
+//				}
+//			}
+//		}
 
 		// commonly used vanilla code that adds the player's inventory
 		bindPlayerInventory(inventoryPlayer);
@@ -81,7 +115,7 @@ public class ContainerBuyShop extends Container {
 			stack = stackInSlot.copy();
 
 			// merges the item into player inventory since its in the Entity
-			if (slot < 7) {
+			if (slot < 44) {
 				if (!this.mergeItemStack(stackInSlot, 54, this.inventorySlots.size(), true)) {
 					return null;
 				}

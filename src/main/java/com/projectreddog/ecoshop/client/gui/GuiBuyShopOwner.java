@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiBuyShopOwner extends GuiContainer {
 	private TileEntityBuyShop buyShop;
-	private GuiButton gb;
+	//private GuiButton gb;
 
 	@Override
 	protected void actionPerformed(GuiButton p_146284_1_) {
@@ -32,8 +32,8 @@ public class GuiBuyShopOwner extends GuiContainer {
 
 	@Override
 	public void initGui() {
-		gb = new GuiButton(1, 134, 45, 34, 16, "Inv");
-		this.buttonList.add(gb);
+		//gb = new GuiButton(1, 134, 45, 34, 16, "Inv");
+	//	this.buttonList.add(gb);
 		this.xSize = 176;
 		this.ySize = 222;
 		super.initGui();

@@ -15,7 +15,7 @@ public class ContainerBuyShopOwner extends Container {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 9; j++) {
 
-				addSlotToContainer(new Slot(buyShop, (j + i * 9) + 20, 8 + j * 18, 18 + i * 18));
+				addSlotToContainer(new Slot(buyShop, (j + i * 9) + 44, 8 + j * 18, 18 + i * 18));
 
 			}
 		}
@@ -54,7 +54,7 @@ public class ContainerBuyShopOwner extends Container {
 			stack = stackInSlot.copy();
 
 			// merges the item into player inventory since its in the Entity
-			if (slot < 7) {
+			if (slot < 54) {
 				if (!this.mergeItemStack(stackInSlot, 54, this.inventorySlots.size(), true)) {
 					return null;
 				}

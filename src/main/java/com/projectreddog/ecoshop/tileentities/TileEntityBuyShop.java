@@ -10,7 +10,7 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
 	protected ItemStack[] inventory;
 
 	public TileEntityBuyShop() {
-		inventory = new ItemStack[97];
+		inventory = new ItemStack[98];
 
 	}
 
