@@ -6,6 +6,8 @@ public class Reference {
 	public static final String GUI_FACTORY_CLASS = "com.projectreddog.ecoshop.client.gui.GuiFactory";
 
 	public static final String MODID = "ECOSHOP";
+	public static final String MOD_NAME = "ECOSHOP";
+
 	public static final String ITEM_CHECK = "CHECK";
 	public static final String ITEM_CREDIT_ONE = "CREDIT_ONE";
 	public static final String ITEM_CREDIT_FIVE = "CREDIT_FIVE";
@@ -21,8 +23,7 @@ public class Reference {
 
 	public static final int GUI_BLOCK_BUY_SHOP_OWNER = 0;
 	public static final int GUI_BLOCK_BUY_SHOP = 1;
-	
-	
+
 	public static final String ECOSHOP_MOD_NBT_PREFIX = "ECO_SHOP_NBT_";
 
 }

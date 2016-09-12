@@ -1,12 +1,13 @@
 package com.projectreddog.ecoshop.utility;
 
 import org.apache.logging.log4j.Level;
+
 import com.projectreddog.ecoshop.reference.Reference;
 
 public class LogHelper {
 
 	public static void log(Level logLevel, Object object) {
-		net.minecraftforge.fml.common.FMLLog.log(Reference.MOD_NAME, logLevel, String.valueOf(object));
+		cpw.mods.fml.common.FMLLog.log(Reference.MOD_NAME, logLevel, String.valueOf(object));
 
 	}
 
