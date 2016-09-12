@@ -2,6 +2,7 @@ package com.projectreddog.ecoshop.tileentities;
 
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.reference.Reference;
+import com.projectreddog.ecoshop.utility.LogHelper;
 
 import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,8 +26,36 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
     //29-43
 	// Owner only STOCK area
 	//44-97
-	
-	
+
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		LogHelper.debug( "Range Check Returned :" +isRangeInSecondRange( 0, 8, 9, 17));
+	}
+	public boolean isRangeInSecondRange( int start, int end, int secondStart, int secondEnd){
+		// is everything in the first range contained in the second range?
+		ItemStack toCheck;
+		ItemStack needed;
+		for (int neededSlot = start; neededSlot <=end;neededSlot++){
+
+			boolean wasMatchFound =false;
+			for (int checkslot = secondStart; checkslot <=secondEnd;checkslot++){
+
+				toCheck = inventory[checkslot];
+				needed=inventory[checkslot];
+				
+				if ( toCheck.getItem() ==needed.getItem() && toCheck.getItemDamage() == needed.getItemDamage()){
+					wasMatchFound = true;
+					break;
+				}
+				
+			}		
+			if (wasMatchFound ==false){
+				return false;
+			}
+		}
+		return true;
+	}
 	public TileEntityBuyShop() {
 		inventory = new ItemStack[98];
 
@@ -143,11 +172,6 @@ public class TileEntityBuyShop extends TileEntity implements ITickable, ISidedIn
 		return false;
 	}
 
-	@Override
-	public void tick() {
-		// TODO Auto-generated method stub
-
-	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
