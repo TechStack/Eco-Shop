@@ -44,8 +44,11 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 					if (inventory[i] != null) {
 						Item item2 = inventory[i].getItem();
 						if (item2 == item) {
-							// same item count the stock!
-							qty = qty + inventory[i].stackSize;
+							if (inventory[i].getItemDamage() == inventory[0].getItemDamage()) {
+								// Same Damage value only!
+								// same item count the stock!
+								qty = qty + inventory[i].stackSize;
+							}
 						}
 					}
 				}
@@ -151,6 +154,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 								if (stackToCheck.getItemDamage() == stackToBuy.getItemDamage()) {
 									// same damage !
 									// check amounts
+
+									// check here
 								}
 
 							}

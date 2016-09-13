@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockBuyShop extends BlockContainerEcoShop {
-
+	// TODO need to DROP inventory if the block is broken ! (DO NOT DROP Upgrades?)
 	public BlockBuyShop() {
 		super();
 		// TODO Auto-generated constructor stub
