@@ -36,10 +36,13 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 		if (te != null) {
 			if (te instanceof TileEntityBuyShop) {
 				// playerIn.openGui(EcoShop.instance, Reference.GUI_BLOCK_BUY_SHOP, worldIn, x, y, z);
-				if (((TileEntityBuyShop) te).getOwner() == null) {
-					((TileEntityBuyShop) te).setOwner(MinecraftServer.getServer().func_152358_ax().func_152655_a(playerIn.getDisplayName()).getId());
-					//// GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().func_152655_a(username).getId();
-					// set the blocks owner!
+				if (!worldIn.isRemote) {
+					// only set it on the server side. client will get it in the gui
+					if (((TileEntityBuyShop) te).getOwner() == null) {
+						((TileEntityBuyShop) te).setOwner(MinecraftServer.getServer().func_152358_ax().func_152655_a(playerIn.getDisplayName()).getId());
+						//// GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().func_152655_a(username).getId();
+						// set the blocks owner!
+					}
 				}
 			}
 
