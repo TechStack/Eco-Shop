@@ -16,18 +16,14 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	protected ItemStack[] inventory;
-	// upper left (accept this owner area)
-	// 0-8
-	// Middle top owner
-	// 9-17
+	// itemstack in trasnaction slot 0 Selling or buying this
 	// upgrade slots
-	// 18-19
+	// 1-2
 	// customer slots left
-	// 20-28
+	// 3-11
 	// customer slots right
-	// 29-43
+	// 12-26
 	// Owner only STOCK area
-	// 44-97
 	// 27 -80 new
 
 	private int mode = 0; // 0=buy, 1 = sell
@@ -111,6 +107,32 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			// server
 			// TODO maybe optimize a bit and only calculate if there was a change in stock
 			IOH = getInventoryOnHand();
+
+			if (mode == Reference.STORE_BLOCK_MODE_SELL) {
+				// we are selling
+				// slots
+
+			} else if (mode == Reference.STORE_BLOCK_MODE_BUY) {
+				/// block is buying the item in the slot 0
+				ItemStack stackToBuy = inventory[0];
+				if (stackToBuy != null) {
+
+					for (int i = 3; i < 12; i++) {
+						ItemStack stackToCheck = inventory[i];
+						if (stackToCheck != null) {
+							if (stackToCheck.getItem() == stackToBuy.getItem()) {
+								// same item !
+								if (stackToCheck.getItemDamage() == stackToBuy.getItemDamage()) {
+									// same damage !
+									// check amounts
+								}
+
+							}
+						}
+					}
+				}
+
+			}
 		}
 	}
 
