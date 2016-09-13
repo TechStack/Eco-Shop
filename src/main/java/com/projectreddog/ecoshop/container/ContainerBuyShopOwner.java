@@ -15,7 +15,7 @@ public class ContainerBuyShopOwner extends Container {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 9; j++) {
 
-				addSlotToContainer(new Slot(buyShop, (j + i * 9) + 44, 8 + j * 18, 18 + i * 18));
+				addSlotToContainer(new Slot(buyShop, (j + i * 9) + 27, 8 + j * 18, 18 + i * 18));
 
 			}
 		}

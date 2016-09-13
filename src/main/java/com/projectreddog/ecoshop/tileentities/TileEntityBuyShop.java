@@ -7,6 +7,7 @@ import com.projectreddog.ecoshop.reference.Reference;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -27,10 +28,29 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	// 29-43
 	// Owner only STOCK area
 	// 44-97
+	// 27 -80 new
 
 	private int mode = 0; // 0=buy, 1 = sell
 	private UUID owner;
 	private int CreditAmount;
+	private int IOH;
+
+	public int getInventoryOnHand() {
+		if (getMode() == Reference.STORE_BLOCK_MODE_SELL) {
+			// we are selling the item in this slot so lets prep this stuff (slot 0)
+			if (inventory[0] != null) {
+				Item item = inventory[0].getItem();
+				int qty = inventory[0].stackSize;
+				// TODO replace this placeholder with real code.
+				return qty;
+			}
+		}
+		return 0;
+	}
+
+	public int getIOH() {
+		return IOH;
+	}
 
 	public int getCreditAmount() {
 		return CreditAmount;
@@ -82,6 +102,16 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	public void updateEntity() {
 		// TODO Auto-generated method stub
 		// LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
+
+		//
+
+		if (this.worldObj.isRemote) {
+			// client
+		} else {
+			// server
+			// TODO maybe optimize a bit and only calculate if there was a change in stock
+			IOH = getInventoryOnHand();
+		}
 	}
 
 	public boolean processesButton(int buttonID) {
@@ -143,7 +173,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	public TileEntityBuyShop() {
-		inventory = new ItemStack[98];
+		inventory = new ItemStack[81];
 
 	}
 
@@ -311,6 +341,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			return this.mode;
 		case 1:
 			return this.getCreditAmount();
+		case 2:
+			return IOH;
 		default:
 			break;
 		}
@@ -326,6 +358,9 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		case 1:
 			setCreditAmount(value);
 			break;
+		case 2:
+			IOH = value;
+			break;
 		default:
 			break;
 		}
@@ -333,7 +368,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	public int getFieldCount() {
-		return 2;
+		return 3;
 	}
 
 }

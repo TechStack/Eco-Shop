@@ -33,6 +33,7 @@ public class ContainerBuyShop extends Container {
 		// Middle top
 		// addSlotToContainer(new Slot(buyShop, 9, 8 + 4 * 18, 9 + 0 * 18));
 		// addSlotToContainer(new Slot(buyShop, 10, 8 + 5 * 18, 9 + 0 * 18));
+		// ITEM used in transaction
 		addSlotToContainer(new Slot(buyShop, 0, 8 + 6 * 18, 9 + 0 * 18));
 		// addSlotToContainer(new Slot(buyShop, 12, 8 + 4 * 18, 9 + 1 * 18));
 		// addSlotToContainer(new Slot(buyShop, 13, 8 + 5 * 18, 9 + 1 * 18));
@@ -120,7 +121,7 @@ public class ContainerBuyShop extends Container {
 			stack = stackInSlot.copy();
 
 			// merges the item into player inventory since its in the Entity
-			if (slot < 44) {
+			if (slot < 27) {
 				if (!this.mergeItemStack(stackInSlot, 54, this.inventorySlots.size(), true)) {
 					return null;
 				}
@@ -257,6 +258,8 @@ public class ContainerBuyShop extends Container {
 			// if (this.lastRemainBurnTime != this.buyShop.getField(1)) {
 			icrafting.sendProgressBarUpdate(this, 1, this.buyShop.getField(1));
 			// }
+
+			icrafting.sendProgressBarUpdate(this, 2, this.buyShop.getField(2));
 
 		}
 
