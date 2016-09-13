@@ -11,7 +11,9 @@ import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiBuyShop extends GuiContainer {
@@ -24,7 +26,7 @@ public class GuiBuyShop extends GuiContainer {
 	private GuiButton buttonPlus100;
 	private GuiButton buttonMinus100;
 
-	// private EntityPlayer player;
+	private EntityPlayer player;
 	private String OperationText = "Selling";
 	private static String SELLING = "Selling";
 	private static String BUYING = "Buying";
@@ -71,7 +73,7 @@ public class GuiBuyShop extends GuiContainer {
 		// handling
 
 		super(new ContainerBuyShop(inventoryPlayer, buyShop));
-		// player = inventoryPlayer.player;
+		player = inventoryPlayer.player;
 		this.buyShop = buyShop;
 
 	}
@@ -85,6 +87,8 @@ public class GuiBuyShop extends GuiContainer {
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		buttonBuySell = new GuiButton(Reference.GUI_BUTTON_ID_BUY_SELL, x + 77, y + 7, 36, 20, BUYING);
+		this.buttonBuySell.enabled = false;
+
 		this.buttonList.add(buttonBuySell);
 
 		int buttonHeight = 20;
@@ -126,8 +130,12 @@ public class GuiBuyShop extends GuiContainer {
 		}
 		fontRendererObj.drawString("Shop Owner: " + buyShop.GetOwnerName(), 9, 48, 4210752);
 
-		fontRendererObj.drawString("We have " + buyShop.getIOH() + " in stock.", 9, 58, 4210752);
+		if (buyShop.getMode() == Reference.STORE_BLOCK_MODE_BUY) {
+			fontRendererObj.drawString(buyShop.getIOH() + " Credits remain.", 9, 58, 4210752);
 
+		} else if (buyShop.getMode() == Reference.STORE_BLOCK_MODE_SELL) {
+			fontRendererObj.drawString("We have " + buyShop.getIOH() + " in stock.", 9, 58, 4210752);
+		}
 	}
 
 	@Override
@@ -151,7 +159,12 @@ public class GuiBuyShop extends GuiContainer {
 		} else {
 			this.buttonBuySell.displayString = SELLING;
 		}
-
+		// gui is client only anyway so safe
+		if (buyShop.getOwner().getLeastSignificantBits() != MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getLeastSignificantBits() || buyShop.getOwner().getMostSignificantBits() != MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getMostSignificantBits()) {
+			this.buttonBuySell.enabled = false;
+		} else {
+			this.buttonBuySell.enabled = true;
+		}
 	}
 
 }
