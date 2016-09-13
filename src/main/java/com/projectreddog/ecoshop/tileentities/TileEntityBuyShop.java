@@ -2,6 +2,7 @@ package com.projectreddog.ecoshop.tileentities;
 
 import java.util.UUID;
 
+import com.projectreddog.ecoshop.item.ItemCredit;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.reference.Reference;
 
@@ -36,11 +37,36 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			// we are selling the item in this slot so lets prep this stuff (slot 0)
 			if (inventory[0] != null) {
 				Item item = inventory[0].getItem();
-				int qty = inventory[0].stackSize;
+				// int qty = inventory[0].stackSize;
+				int qty = 0;
 				// TODO replace this placeholder with real code.
+				for (int i = 27; i < 81; i++) {
+					if (inventory[i] != null) {
+						Item item2 = inventory[i].getItem();
+						if (item2 == item) {
+							// same item count the stock!
+							qty = qty + inventory[i].stackSize;
+						}
+					}
+				}
 				return qty;
 			}
+		} else if (getMode() == Reference.STORE_BLOCK_MODE_BUY) {
+			// we need to count the money we have in inventory so we know how much the player can get paid for!
+			int qty = 0;
+			for (int i = 27; i < 81; i++) {
+				if (inventory[i] != null) {
+					Item item = inventory[i].getItem();
+					if (item instanceof ItemCredit) {
+						ItemCredit ic = (ItemCredit) item;
+						qty = qty + (ic.GetValue() * inventory[i].stackSize);
+					}
+				}
+			}
+			return qty;
 		}
+		// must be in an invalid mode just go ahead and return 0 as a fail safe
+		// Else i'm going to have to go ahead and ask you to work this weekend on TPS reports
 		return 0;
 	}
 
