@@ -141,37 +141,6 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		return false;
 	}
 
-	public boolean isRangeInSecondRange(int start, int end, int secondStart, int secondEnd) {
-		// is everything in the first range contained in the second range?
-		ItemStack toCheck;
-		ItemStack needed;
-		for (int neededSlot = start; neededSlot <= end; neededSlot++) {
-
-			boolean wasMatchFound = false;
-			for (int checkslot = secondStart; checkslot <= secondEnd; checkslot++) {
-
-				toCheck = inventory[checkslot];
-				needed = inventory[neededSlot];
-				if (needed == null) {
-					wasMatchFound = true;
-					break;
-				}
-				if (toCheck == null) {
-					continue;
-				}
-				if (toCheck.getItem() == needed.getItem() && toCheck.getItemDamage() == needed.getItemDamage() && needed.stackSize <= toCheck.stackSize) {
-					wasMatchFound = true;
-					break;
-				}
-
-			}
-			if (wasMatchFound == false) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	public TileEntityBuyShop() {
 		inventory = new ItemStack[81];
 
