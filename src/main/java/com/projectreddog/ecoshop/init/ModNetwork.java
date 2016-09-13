@@ -6,6 +6,10 @@ import com.projectreddog.ecoshop.EcoShop;
 import com.projectreddog.ecoshop.client.gui.GuiHandler;
 import com.projectreddog.ecoshop.network.EcoShopStoreButtonClickToServer;
 import com.projectreddog.ecoshop.network.EcoShopStoreButtonClickToServerHandler;
+import com.projectreddog.ecoshop.network.EcoShopStoreOwnerRequestToServer;
+import com.projectreddog.ecoshop.network.EcoShopStoreOwnerRequestToServerHandler;
+import com.projectreddog.ecoshop.network.EcoShopStoreOwnerResponseToClient;
+import com.projectreddog.ecoshop.network.EcoShopStoreOwnerResponseToClientHandler;
 import com.projectreddog.ecoshop.reference.Reference;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -24,6 +28,9 @@ public class ModNetwork {
 		simpleNetworkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID);
 		NetworkRegistry.INSTANCE.registerGuiHandler(EcoShop.instance, new GuiHandler());
 		simpleNetworkWrapper.registerMessage(EcoShopStoreButtonClickToServerHandler.class, EcoShopStoreButtonClickToServer.class, 0, Side.SERVER);// message
+
+		simpleNetworkWrapper.registerMessage(EcoShopStoreOwnerRequestToServerHandler.class, EcoShopStoreOwnerRequestToServer.class, 1, Side.SERVER);// message
+		simpleNetworkWrapper.registerMessage(EcoShopStoreOwnerResponseToClientHandler.class, EcoShopStoreOwnerResponseToClient.class, 2, Side.CLIENT);// message
 
 	}
 

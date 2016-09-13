@@ -1,6 +1,8 @@
 package com.projectreddog.ecoshop.block;
 
 import com.projectreddog.ecoshop.EcoShop;
+import com.projectreddog.ecoshop.init.ModNetwork;
+import com.projectreddog.ecoshop.network.EcoShopStoreOwnerRequestToServer;
 import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
@@ -43,6 +45,10 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 						//// GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().func_152655_a(username).getId();
 						// set the blocks owner!
 					}
+				} else {
+					// client side so request the owner info
+					ModNetwork.simpleNetworkWrapper.sendToServer((new EcoShopStoreOwnerRequestToServer(x, y, z)));
+
 				}
 			}
 

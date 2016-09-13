@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.projectreddog.ecoshop.container.ContainerBuyShop;
 import com.projectreddog.ecoshop.init.ModNetwork;
 import com.projectreddog.ecoshop.network.EcoShopStoreButtonClickToServer;
+import com.projectreddog.ecoshop.network.EcoShopStoreOwnerRequestToServer;
 import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
@@ -119,7 +120,10 @@ public class GuiBuyShop extends GuiContainer {
 		fontRendererObj.drawString("This store is:", 9, 12, 4210752);
 
 		fontRendererObj.drawString("For: " + buyShop.getCreditAmount(), 9, 30, 4210752);
-
+		if (buyShop.GetOwnerName() == "") {
+			ModNetwork.simpleNetworkWrapper.sendToServer((new EcoShopStoreOwnerRequestToServer(buyShop.xCoord, buyShop.yCoord, buyShop.zCoord)));
+			// TODO possilby add a delay or max number of tries before giving up to avoid flooding the server with request before it can respond
+		}
 		fontRendererObj.drawString("Shop Owner: " + buyShop.GetOwnerName(), 9, 48, 4210752);
 
 		fontRendererObj.drawString("We have " + 55 + " in stock.", 9, 58, 4210752);
