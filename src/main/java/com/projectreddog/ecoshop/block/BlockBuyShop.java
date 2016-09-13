@@ -70,4 +70,25 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 		}
 	}
 
+	public float getPlayerRelativeBlockHardness(EntityPlayer player, World world, int x, int y, int z) {
+		TileEntity te = world.getTileEntity(x, y, z);
+		if (te != null) {
+			if (te instanceof TileEntityBuyShop) {
+				TileEntityBuyShop shop = (TileEntityBuyShop) te;
+				if (shop.getOwner() == null) {
+					// owner is null so allow
+					super.getPlayerRelativeBlockHardness(player, world, x, y, z);
+				} else {
+					// not null owner
+					if (shop.getOwner().getLeastSignificantBits() == player.getUniqueID().getLeastSignificantBits() && shop.getOwner().getMostSignificantBits() == player.getUniqueID().getMostSignificantBits()) {
+						// this is the owner so set hardness to a valid value
+
+						return super.getPlayerRelativeBlockHardness(player, world, x, y, z);
+					}
+				}
+
+			}
+		}
+		return 0.0f;
+	}
 }
