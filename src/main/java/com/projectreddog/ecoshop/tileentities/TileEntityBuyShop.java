@@ -40,8 +40,18 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			// we are selling the item in this slot so lets prep this stuff (slot 0)
 			if (inventory[0] != null) {
 				Item item = inventory[0].getItem();
-				int qty = inventory[0].stackSize;
+				// int qty = inventory[0].stackSize;
+				int qty = 0;
 				// TODO replace this placeholder with real code.
+				for (int i = 27; i < 81; i++) {
+					if (inventory[i] != null) {
+						Item item2 = inventory[i].getItem();
+						if (item2 == item) {
+							// same item count the stock!
+							qty = qty + inventory[i].stackSize;
+						}
+					}
+				}
 				return qty;
 			}
 		}
