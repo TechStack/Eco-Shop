@@ -6,21 +6,65 @@ import com.projectreddog.ecoshop.container.ContainerBuyShop;
 import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiBuyShop extends GuiContainer {
 	private TileEntityBuyShop buyShop;
-	// private GuiButton gb;
-	// private EntityPlayer player;
+	private GuiButton buttonBuySell;
+	private GuiButton buttonPlus;
+	private GuiButton buttonMinus;
+	private GuiButton buttonPlus10;
+	private GuiButton buttonMinus10;
+	private GuiButton buttonPlus100;
+	private GuiButton buttonMinus100;
 
-	// @Override
-	// protected void actionPerformed(GuiButton p_146284_1_) {
-	// // TODO Auto-generated method stub
-	// super.actionPerformed(p_146284_1_);
-	// player.openGui(Reference.MODID, Reference.GUI_BLOCK_BUY_SHOP_OWNER, player.worldObj, buyShop.xCoord, buyShop.yCoord, buyShop.zCoord);
-	// }
+	// private EntityPlayer player;
+	private String OperationText = "Selling";
+	private static String SELLING = "Selling";
+	private static String BUYING = "Buying";
+	private int CreditAmount = 0;
+
+	@Override
+	protected void actionPerformed(GuiButton btn) {
+		// TODO Auto-generated method stub
+		super.actionPerformed(btn);
+		if (btn.id == Reference.GUI_BUTTON_ID_BUY_SELL) {
+
+			if (buttonBuySell.displayString.equals(BUYING)) {
+				buttonBuySell.displayString = SELLING;
+			} else {
+				buttonBuySell.displayString = BUYING;
+			}
+		}
+
+		if (btn.id == Reference.GUI_BUTTON_ID_MINUS) {
+			CreditAmount--;
+		}
+		if (btn.id == Reference.GUI_BUTTON_ID_PLUS) {
+			CreditAmount++;
+		}
+		if (btn.id == Reference.GUI_BUTTON_ID_MINUS10) {
+			CreditAmount = CreditAmount - 10;
+		}
+		if (btn.id == Reference.GUI_BUTTON_ID_PLUS10) {
+			CreditAmount = CreditAmount + 10;
+		}
+
+		if (btn.id == Reference.GUI_BUTTON_ID_MINUS100) {
+			CreditAmount = CreditAmount - 100;
+		}
+		if (btn.id == Reference.GUI_BUTTON_ID_PLUS100) {
+			CreditAmount = CreditAmount + 100;
+		}
+
+		if (CreditAmount < 0) {
+			CreditAmount = 0;
+		}
+
+	}
 
 	public GuiBuyShop(InventoryPlayer inventoryPlayer, TileEntityBuyShop buyShop) {
 		// the container is instanciated and passed to the superclass for
@@ -29,14 +73,35 @@ public class GuiBuyShop extends GuiContainer {
 		super(new ContainerBuyShop(inventoryPlayer, buyShop));
 		// player = inventoryPlayer.player;
 		this.buyShop = buyShop;
+
 	}
 
 	@Override
 	public void initGui() {
-		// gb = new GuiButton(1, 134, 45, 34, 16, "Inv");
-		// this.buttonList.add(gb);
+
+		// this.buttonBuySell.enabled = false;
 		this.xSize = 176;
 		this.ySize = 222;
+		int x = (width - xSize) / 2;
+		int y = (height - ySize) / 2;
+		buttonBuySell = new GuiButton(Reference.GUI_BUTTON_ID_BUY_SELL, x + 77, y + 7, 36, 20, BUYING);
+		this.buttonList.add(buttonBuySell);
+
+		int buttonHeight = 20;
+		int buttonWidth = 12;
+		int topOffset = 26;
+		buttonMinus100 = new GuiButton(Reference.GUI_BUTTON_ID_MINUS100, x + 77, y + topOffset, buttonWidth, buttonHeight, "<<");
+		buttonMinus10 = new GuiButton(Reference.GUI_BUTTON_ID_MINUS10, x + 77 + buttonWidth, y + topOffset, buttonWidth, buttonHeight, "<");
+		buttonMinus = new GuiButton(Reference.GUI_BUTTON_ID_MINUS, x + 77 + buttonWidth * 2, y + topOffset, buttonWidth, buttonHeight, "-");
+		buttonPlus = new GuiButton(Reference.GUI_BUTTON_ID_PLUS, x + 77 + buttonWidth * 3, y + topOffset, buttonWidth, buttonHeight, "+");
+		buttonPlus10 = new GuiButton(Reference.GUI_BUTTON_ID_PLUS10, x + 77 + buttonWidth * 4, y + topOffset, buttonWidth, buttonHeight, ">");
+		buttonPlus100 = new GuiButton(Reference.GUI_BUTTON_ID_PLUS100, x + 77 + buttonWidth * 5, y + topOffset, buttonWidth, buttonHeight, ">>");
+		this.buttonList.add(buttonMinus100);
+		this.buttonList.add(buttonMinus10);
+		this.buttonList.add(buttonMinus);
+		this.buttonList.add(buttonPlus);
+		this.buttonList.add(buttonPlus10);
+		this.buttonList.add(buttonPlus100);
 		super.initGui();
 
 	}
@@ -52,6 +117,14 @@ public class GuiBuyShop extends GuiContainer {
 		// fontRendererObj.drawString("Fuel: " + canner.fuelStorage, 5, 5, 4210752);
 
 		// TODO need to Draw owner name !
+		fontRendererObj.drawString("This store is:", 9, 12, 4210752);
+
+		fontRendererObj.drawString("For: " + CreditAmount, 9, 30, 4210752);
+
+		fontRendererObj.drawString("Shop Owner: " + "Alchao's Mom", 9, 48, 4210752);
+
+		fontRendererObj.drawString("We have " + 55 + " in stock.", 9, 58, 4210752);
+
 	}
 
 	@Override

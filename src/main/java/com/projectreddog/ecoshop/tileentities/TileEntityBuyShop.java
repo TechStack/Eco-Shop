@@ -2,7 +2,6 @@ package com.projectreddog.ecoshop.tileentities;
 
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.reference.Reference;
-import com.projectreddog.ecoshop.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -29,7 +28,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	@Override
 	public void updateEntity() {
 		// TODO Auto-generated method stub
-		LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
+		// LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
 	}
 
 	public boolean isRangeInSecondRange(int start, int end, int secondStart, int secondEnd) {
