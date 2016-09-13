@@ -3,6 +3,8 @@ package com.projectreddog.ecoshop.client.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.projectreddog.ecoshop.container.ContainerBuyShop;
+import com.projectreddog.ecoshop.init.ModNetwork;
+import com.projectreddog.ecoshop.network.EcoShopStoreButtonClickToServer;
 import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
@@ -31,38 +33,35 @@ public class GuiBuyShop extends GuiContainer {
 	protected void actionPerformed(GuiButton btn) {
 		// TODO Auto-generated method stub
 		super.actionPerformed(btn);
-		if (btn.id == Reference.GUI_BUTTON_ID_BUY_SELL) {
 
-			if (buttonBuySell.displayString.equals(BUYING)) {
-				buttonBuySell.displayString = SELLING;
-			} else {
-				buttonBuySell.displayString = BUYING;
-			}
-		}
+		//
+		// TODO need to send packet to the server!
+		ModNetwork.simpleNetworkWrapper.sendToServer((new EcoShopStoreButtonClickToServer(btn.id, buyShop.xCoord, buyShop.yCoord, buyShop.zCoord)));
 
-		if (btn.id == Reference.GUI_BUTTON_ID_MINUS) {
-			CreditAmount--;
-		}
-		if (btn.id == Reference.GUI_BUTTON_ID_PLUS) {
-			CreditAmount++;
-		}
-		if (btn.id == Reference.GUI_BUTTON_ID_MINUS10) {
-			CreditAmount = CreditAmount - 10;
-		}
-		if (btn.id == Reference.GUI_BUTTON_ID_PLUS10) {
-			CreditAmount = CreditAmount + 10;
-		}
-
-		if (btn.id == Reference.GUI_BUTTON_ID_MINUS100) {
-			CreditAmount = CreditAmount - 100;
-		}
-		if (btn.id == Reference.GUI_BUTTON_ID_PLUS100) {
-			CreditAmount = CreditAmount + 100;
-		}
-
-		if (CreditAmount < 0) {
-			CreditAmount = 0;
-		}
+		//
+		// if (btn.id == Reference.GUI_BUTTON_ID_MINUS) {
+		// CreditAmount--;
+		// }
+		// if (btn.id == Reference.GUI_BUTTON_ID_PLUS) {
+		// CreditAmount++;
+		// }
+		// if (btn.id == Reference.GUI_BUTTON_ID_MINUS10) {
+		// CreditAmount = CreditAmount - 10;
+		// }
+		// if (btn.id == Reference.GUI_BUTTON_ID_PLUS10) {
+		// CreditAmount = CreditAmount + 10;
+		// }
+		//
+		// if (btn.id == Reference.GUI_BUTTON_ID_MINUS100) {
+		// CreditAmount = CreditAmount - 100;
+		// }
+		// if (btn.id == Reference.GUI_BUTTON_ID_PLUS100) {
+		// CreditAmount = CreditAmount + 100;
+		// }
+		//
+		// if (CreditAmount < 0) {
+		// CreditAmount = 0;
+		// }
 
 	}
 
@@ -119,9 +118,9 @@ public class GuiBuyShop extends GuiContainer {
 		// TODO need to Draw owner name !
 		fontRendererObj.drawString("This store is:", 9, 12, 4210752);
 
-		fontRendererObj.drawString("For: " + CreditAmount, 9, 30, 4210752);
+		fontRendererObj.drawString("For: " + buyShop.getCreditAmount(), 9, 30, 4210752);
 
-		fontRendererObj.drawString("Shop Owner: " + "Alchao's Mom", 9, 48, 4210752);
+		fontRendererObj.drawString("Shop Owner: " + buyShop.GetOwnerName(), 9, 48, 4210752);
 
 		fontRendererObj.drawString("We have " + 55 + " in stock.", 9, 58, 4210752);
 
@@ -137,4 +136,18 @@ public class GuiBuyShop extends GuiContainer {
 		int y = (height - ySize) / 2;
 		this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
+
+	@Override
+	public void updateScreen() {
+		// TODO Auto-generated method stub
+		super.updateScreen();
+
+		if (buyShop.getMode() == Reference.STORE_BLOCK_MODE_BUY) {
+			this.buttonBuySell.displayString = BUYING;
+		} else {
+			this.buttonBuySell.displayString = SELLING;
+		}
+
+	}
+
 }

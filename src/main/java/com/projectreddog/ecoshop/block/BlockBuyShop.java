@@ -5,6 +5,7 @@ import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -32,6 +33,17 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 	@Override
 	public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer playerIn, int side, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(x, y, z);
+		if (te != null) {
+			if (te instanceof TileEntityBuyShop) {
+				// playerIn.openGui(EcoShop.instance, Reference.GUI_BLOCK_BUY_SHOP, worldIn, x, y, z);
+				if (((TileEntityBuyShop) te).getOwner() == null) {
+					((TileEntityBuyShop) te).setOwner(MinecraftServer.getServer().func_152358_ax().func_152655_a(playerIn.getDisplayName()).getId());
+					//// GameProfile profile = MinecraftServer.getServer().getPlayerProfileCache().func_152655_a(username).getId();
+					// set the blocks owner!
+				}
+			}
+
+		}
 		if (te != null && !playerIn.isSneaking()) {
 			if (te instanceof TileEntityBuyShop) {
 				playerIn.openGui(EcoShop.instance, Reference.GUI_BLOCK_BUY_SHOP, worldIn, x, y, z);

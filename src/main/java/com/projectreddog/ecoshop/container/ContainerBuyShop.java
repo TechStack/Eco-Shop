@@ -4,16 +4,21 @@ import com.projectreddog.ecoshop.inventory.SlotUpgradeOnly;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerBuyShop extends Container {
 
-	public ContainerBuyShop(InventoryPlayer inventoryPlayer, TileEntityBuyShop buyShop) {
+	private TileEntityBuyShop buyShop;
 
+	public ContainerBuyShop(InventoryPlayer inventoryPlayer, TileEntityBuyShop buyShop) {
+		this.buyShop = buyShop;
 		// upper left (accept this owner area)
 		// addSlotToContainer(new Slot(buyShop, 0, 8 + 0 * 18, 9 + 0 * 18));
 		// addSlotToContainer(new Slot(buyShop, 1, 8 + 1 * 18, 9 + 0 * 18));
@@ -238,5 +243,30 @@ public class ContainerBuyShop extends Container {
 		}
 
 		return flag1;
+	}
+
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+
+		for (int i = 0; i < this.crafters.size(); ++i) {
+			ICrafting icrafting = (ICrafting) this.crafters.get(i);
+
+			// if (this.lastFuelStorage != this.buyShop.getField(0)) {
+			icrafting.sendProgressBarUpdate(this, 0, this.buyShop.getField(0));
+			// }
+			// if (this.lastRemainBurnTime != this.buyShop.getField(1)) {
+			icrafting.sendProgressBarUpdate(this, 1, this.buyShop.getField(1));
+			// }
+
+		}
+
+		// this.lastFuelStorage = this.buyShop.getField(0);
+		// this.lastRemainBurnTime = this.buyShop.getField(1);
+
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int id, int data) {
+		this.buyShop.setField(id, data);
 	}
 }

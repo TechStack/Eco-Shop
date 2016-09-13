@@ -34,4 +34,7 @@ public class Reference {
 	public static final int GUI_BUTTON_ID_PLUS100 = 6;
 	public static final int GUI_BUTTON_ID_MINUS100 = 7;
 
+	public static final int STORE_BLOCK_MODE_BUY = 0;
+	public static final int STORE_BLOCK_MODE_SELL = 1;
+
 }
