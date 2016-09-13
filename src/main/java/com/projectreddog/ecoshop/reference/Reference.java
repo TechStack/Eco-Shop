@@ -26,4 +26,15 @@ public class Reference {
 
 	public static final String ECOSHOP_MOD_NBT_PREFIX = "ECO_SHOP_NBT_";
 
+	public static final int GUI_BUTTON_ID_BUY_SELL = 1;
+	public static final int GUI_BUTTON_ID_PLUS = 2;
+	public static final int GUI_BUTTON_ID_MINUS = 3;
+	public static final int GUI_BUTTON_ID_PLUS10 = 4;
+	public static final int GUI_BUTTON_ID_MINUS10 = 5;
+	public static final int GUI_BUTTON_ID_PLUS100 = 6;
+	public static final int GUI_BUTTON_ID_MINUS100 = 7;
+
+	public static final int STORE_BLOCK_MODE_BUY = 0;
+	public static final int STORE_BLOCK_MODE_SELL = 1;
+
 }

@@ -26,8 +26,9 @@ public class EcoShop {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
 		ModItems.init();
-		ModNetwork.init();
 		ModBlocks.init();
+		ModNetwork.init();
+
 	}
 
 	@Mod.EventHandler

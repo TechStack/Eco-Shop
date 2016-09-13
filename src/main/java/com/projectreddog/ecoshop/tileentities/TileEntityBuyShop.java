@@ -1,14 +1,17 @@
 package com.projectreddog.ecoshop.tileentities;
 
+import java.util.UUID;
+
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.reference.Reference;
-import com.projectreddog.ecoshop.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
@@ -25,11 +28,117 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	// 29-43
 	// Owner only STOCK area
 	// 44-97
+	// 27 -80 new
+
+	private int mode = 0; // 0=buy, 1 = sell
+	private UUID owner;
+	private int CreditAmount;
+	private int IOH;
+
+	public int getInventoryOnHand() {
+		if (getMode() == Reference.STORE_BLOCK_MODE_SELL) {
+			// we are selling the item in this slot so lets prep this stuff (slot 0)
+			if (inventory[0] != null) {
+				Item item = inventory[0].getItem();
+				int qty = inventory[0].stackSize;
+				// TODO replace this placeholder with real code.
+				return qty;
+			}
+		}
+		return 0;
+	}
+
+	public int getIOH() {
+		return IOH;
+	}
+
+	public int getCreditAmount() {
+		return CreditAmount;
+	}
+
+	public void setCreditAmount(int creditAmount) {
+		CreditAmount = creditAmount;
+		if (CreditAmount < 0) {
+			CreditAmount = 0;
+		}
+	}
+
+	public String GetOwnerName() {
+		if (owner == null) {
+			return "";
+		} else {
+			// func_152358_ax= getting the playerprofilecache
+			// func_152652_a gets the profile
+			return MinecraftServer.getServer().func_152358_ax().func_152652_a(owner).getName();
+
+		}
+	}
+
+	public UUID getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UUID owner) {
+		this.owner = owner;
+	}
+
+	public int getMode() {
+		return mode;
+	}
+
+	public void toggleMode() {
+		if (mode == Reference.STORE_BLOCK_MODE_BUY) {
+			mode = Reference.STORE_BLOCK_MODE_SELL;
+		} else if (mode == Reference.STORE_BLOCK_MODE_SELL) {
+			mode = Reference.STORE_BLOCK_MODE_BUY;
+		}
+	}
+
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
 
 	@Override
 	public void updateEntity() {
 		// TODO Auto-generated method stub
-		LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
+		// LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
+
+		//
+
+		if (this.worldObj.isRemote) {
+			// client
+		} else {
+			// server
+			// TODO maybe optimize a bit and only calculate if there was a change in stock
+			IOH = getInventoryOnHand();
+		}
+	}
+
+	public boolean processesButton(int buttonID) {
+		if (buttonID == Reference.GUI_BUTTON_ID_BUY_SELL) {
+			// TODO toggle my buy / sell state
+			toggleMode();
+			return true;
+		} else if (buttonID == Reference.GUI_BUTTON_ID_MINUS100) {
+			setCreditAmount(getCreditAmount() - 100);
+			return true;
+		} else if (buttonID == Reference.GUI_BUTTON_ID_MINUS10) {
+			setCreditAmount(getCreditAmount() - 10);
+			return true;
+		} else if (buttonID == Reference.GUI_BUTTON_ID_MINUS) {
+			setCreditAmount(getCreditAmount() - 1);
+			return true;
+		} else if (buttonID == Reference.GUI_BUTTON_ID_PLUS) {
+			setCreditAmount(getCreditAmount() + 1);
+			return true;
+		} else if (buttonID == Reference.GUI_BUTTON_ID_PLUS10) {
+			setCreditAmount(getCreditAmount() + 10);
+			return true;
+		} else if (buttonID == Reference.GUI_BUTTON_ID_PLUS100) {
+			setCreditAmount(getCreditAmount() + 100);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isRangeInSecondRange(int start, int end, int secondStart, int secondEnd) {
@@ -64,7 +173,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	public TileEntityBuyShop() {
-		inventory = new ItemStack[98];
+		inventory = new ItemStack[81];
 
 	}
 
@@ -185,6 +294,11 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		super.readFromNBT(compound);
 
 		// inventory
+		mode = compound.getInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "MODE");
+		CreditAmount = compound.getInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "CREDITAMOUNT");
+		long least = compound.getLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_least");
+		long most = compound.getLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_most");
+		setOwner(new UUID(most, least));
 
 		NBTTagList tagList = compound.getTagList(Reference.ECOSHOP_MOD_NBT_PREFIX + "Inventory", compound.getId());
 		for (int i = 0; i < tagList.tagCount(); i++) {
@@ -194,6 +308,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				inventory[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
+
 	}
 
 	@Override
@@ -212,8 +327,48 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				itemList.appendTag(tag);
 			}
 		}
+		compound.setInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "MODE", mode);
+		compound.setInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "CREDITAMOUNT", CreditAmount);
+		compound.setLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_least", getOwner().getLeastSignificantBits());
+		compound.setLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_most", getOwner().getMostSignificantBits());
 		compound.setTag(Reference.ECOSHOP_MOD_NBT_PREFIX + "Inventory", itemList);
 
+	}
+
+	public int getField(int id) {
+		switch (id) {
+		case 0:
+			return this.mode;
+		case 1:
+			return this.getCreditAmount();
+		case 2:
+			return IOH;
+		default:
+			break;
+		}
+		return 0;
+
+	}
+
+	public void setField(int id, int value) {
+		switch (id) {
+		case 0:
+			this.mode = value;
+			break;
+		case 1:
+			setCreditAmount(value);
+			break;
+		case 2:
+			IOH = value;
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	public int getFieldCount() {
+		return 3;
 	}
 
 }
