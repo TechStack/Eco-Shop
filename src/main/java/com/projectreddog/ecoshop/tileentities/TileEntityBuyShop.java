@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.projectreddog.ecoshop.item.ItemCredit;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.reference.Reference;
+import com.projectreddog.ecoshop.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -146,30 +147,71 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				ItemStack stackToBuy = inventory[0];
 				if (stackToBuy != null) {
 
-					for (int i = 3; i < 12; i++) {
-						ItemStack stackToCheck = inventory[i];
-						if (stackToCheck != null) {
-							if (stackToCheck.getItem() == stackToBuy.getItem()) {
-								// same item !
-								if (stackToCheck.getItemDamage() == stackToBuy.getItemDamage()) {
-									// same damage !
-									// check amounts
+					if (IOH >= CreditAmount) {
+						// we have enough or more than enough
+						int amountNeeded = stackToBuy.stackSize;
+						for (int i = 3; i < 12; i++) {
+							ItemStack stackToCheck = inventory[i];
+							if (stackToCheck != null) {
+								if (stackToCheck.getItem() == stackToBuy.getItem()) {
+									// same item !
+									if (stackToCheck.getItemDamage() == stackToBuy.getItemDamage()) {
+										// same damage !
+										// check amounts
+										int saveStackSize = stackToCheck.stackSize;
+										// check here
+										if (amountNeeded >= stackToCheck.stackSize) {
+											decrStackSize(i, stackToCheck.stackSize);
+											amountNeeded = amountNeeded - saveStackSize;
 
-									// check here
+										} else if (amountNeeded < stackToCheck.stackSize) {
+											decrStackSize(i, amountNeeded);
+											amountNeeded = amountNeeded - amountNeeded;
+
+										}
+									}
 								}
-
+							}
+							if (amountNeeded < 1) {
+								// TODO add code to reduce stock inventory 27-80
+								amountToCustomerOutSlots(CreditAmount);
+								break;
 							}
 						}
 					}
 				}
-
 			}
 		}
 	}
 
+	public boolean amountToCustomerOutSlots(int amount) {
+		int oneThousand = amount / 1000;
+		amount = amount - (oneThousand * 1000);
+
+		int fiveHundred = amount / 500;
+		amount = amount - (fiveHundred * 500);
+
+		int oneHundred = amount / 100;
+		amount = amount - (oneHundred * 100);
+
+		int twenty = amount / 20;
+		amount = amount - (twenty * 20);
+
+		int ten = amount / 10;
+		amount = amount - (ten * 10);
+
+		int five = amount / 5;
+		amount = amount - (five * 5);
+
+		int one = amount / 1;
+		amount = amount - (one * 5);
+
+		LogHelper.info("1000 x " + oneThousand + ", 500 x " + fiveHundred + ", 100 x " + oneHundred + ", 20 x " + twenty + ", 10 x " + ten + ", 5 x " + five + ", 1 x " + one);
+		return false;
+	}
+
 	public boolean processesButton(int buttonID) {
 		if (buttonID == Reference.GUI_BUTTON_ID_BUY_SELL) {
-			// TODO toggle my buy / sell state
 			toggleMode();
 			return true;
 		} else if (buttonID == Reference.GUI_BUTTON_ID_MINUS100) {
@@ -201,13 +243,11 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
 		return inventory.length;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		// TODO Auto-generated method stub
 		return inventory[slot];
 	}
 

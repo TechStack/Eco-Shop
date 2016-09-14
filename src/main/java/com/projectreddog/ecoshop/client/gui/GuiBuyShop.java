@@ -100,6 +100,12 @@ public class GuiBuyShop extends GuiContainer {
 		buttonPlus = new GuiButton(Reference.GUI_BUTTON_ID_PLUS, x + 77 + buttonWidth * 3, y + topOffset, buttonWidth, buttonHeight, "+");
 		buttonPlus10 = new GuiButton(Reference.GUI_BUTTON_ID_PLUS10, x + 77 + buttonWidth * 4, y + topOffset, buttonWidth, buttonHeight, ">");
 		buttonPlus100 = new GuiButton(Reference.GUI_BUTTON_ID_PLUS100, x + 77 + buttonWidth * 5, y + topOffset, buttonWidth, buttonHeight, ">>");
+		buttonMinus100.enabled = false;
+		buttonMinus10.enabled = false;
+		buttonMinus.enabled = false;
+		buttonPlus.enabled = false;
+		buttonPlus10.enabled = false;
+		buttonPlus100.enabled = false;
 		this.buttonList.add(buttonMinus100);
 		this.buttonList.add(buttonMinus10);
 		this.buttonList.add(buttonMinus);
@@ -160,10 +166,24 @@ public class GuiBuyShop extends GuiContainer {
 			this.buttonBuySell.displayString = SELLING;
 		}
 		// gui is client only anyway so safe
-		if (buyShop.getOwner().getLeastSignificantBits() != MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getLeastSignificantBits() || buyShop.getOwner().getMostSignificantBits() != MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getMostSignificantBits()) {
-			this.buttonBuySell.enabled = false;
-		} else {
-			this.buttonBuySell.enabled = true;
+		if (buyShop.getOwner() != null) {
+			if (buyShop.getOwner().getLeastSignificantBits() != MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getLeastSignificantBits() || buyShop.getOwner().getMostSignificantBits() != MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getMostSignificantBits()) {
+				this.buttonBuySell.enabled = false;
+				buttonMinus100.enabled = false;
+				buttonMinus10.enabled = false;
+				buttonMinus.enabled = false;
+				buttonPlus.enabled = false;
+				buttonPlus10.enabled = false;
+				buttonPlus100.enabled = false;
+			} else {
+				this.buttonBuySell.enabled = true;
+				buttonMinus100.enabled = true;
+				buttonMinus10.enabled = true;
+				buttonMinus.enabled = true;
+				buttonPlus.enabled = true;
+				buttonPlus10.enabled = true;
+				buttonPlus100.enabled = true;
+			}
 		}
 	}
 
