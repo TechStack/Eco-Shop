@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiBuyShopOwner extends GuiContainer {
 	private TileEntityBuyShop buyShop;
-	//private GuiButton gb;
+	// private GuiButton gb;
 
 	@Override
 	protected void actionPerformed(GuiButton p_146284_1_) {
@@ -32,8 +32,8 @@ public class GuiBuyShopOwner extends GuiContainer {
 
 	@Override
 	public void initGui() {
-		//gb = new GuiButton(1, 134, 45, 34, 16, "Inv");
-	//	this.buttonList.add(gb);
+		// gb = new GuiButton(1, 134, 45, 34, 16, "Inv");
+		// this.buttonList.add(gb);
 		this.xSize = 176;
 		this.ySize = 222;
 		super.initGui();
@@ -51,6 +51,18 @@ public class GuiBuyShopOwner extends GuiContainer {
 		// fontRendererObj.drawString("Fuel: " + canner.fuelStorage, 5, 5, 4210752);
 
 		// TODO need to Draw owner name !
+
+		fontRendererObj.drawString("In:", 28, 48, 4210752);
+		fontRendererObj.drawString("Stored: " + 1000, 5, 65, 4210752);
+		fontRendererObj.drawString("Out:", 22, 87, 4210752);
+
+		fontRendererObj.drawString("In:", 100, 48, 4210752);
+		fontRendererObj.drawString("Credits: " + 1000, 75, 65, 4210752);
+		fontRendererObj.drawString("Out:", 94, 87, 4210752);
+
+		fontRendererObj.drawString("Items:", 35, 30, 4210752);
+		fontRendererObj.drawString("Credits:", 110, 30, 4210752);
+
 	}
 
 	@Override
