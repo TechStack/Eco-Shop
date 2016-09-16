@@ -489,6 +489,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		// inventory
 		mode = compound.getInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "MODE");
 		CreditAmount = compound.getInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "CREDITAMOUNT");
+		itemsOnHand = compound.getInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "ITEMONHAND");
+		creditsOnHand = compound.getInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "CREDITSONHAND");
 		long least = compound.getLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_least");
 		long most = compound.getLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_most");
 		setOwner(new UUID(most, least));
@@ -522,6 +524,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		}
 		compound.setInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "MODE", mode);
 		compound.setInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "CREDITAMOUNT", CreditAmount);
+		compound.setInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "ITEMONHAND", itemsOnHand);
+		compound.setInteger(Reference.ECOSHOP_MOD_NBT_PREFIX + "CREDITSONHAND", creditsOnHand);
 		compound.setLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_least", getOwner().getLeastSignificantBits());
 		compound.setLong(Reference.ECOSHOP_MOD_NBT_PREFIX + "OWNER_UUID_most", getOwner().getMostSignificantBits());
 		compound.setTag(Reference.ECOSHOP_MOD_NBT_PREFIX + "Inventory", itemList);
