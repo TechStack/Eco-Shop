@@ -14,7 +14,6 @@ public class BlockContainerEcoShop extends BlockContainer {
 
 	protected BlockContainerEcoShop(Material p_i45394_1_) {
 		super(p_i45394_1_);
-		// TODO Auto-generated constructor stub
 	}
 
 	protected BlockContainerEcoShop() {
@@ -37,7 +36,6 @@ public class BlockContainerEcoShop extends BlockContainer {
 	}
 
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

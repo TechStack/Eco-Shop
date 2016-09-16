@@ -15,7 +15,6 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 	// TODO need to DROP inventory if the block is broken ! (DO NOT DROP Upgrades?)
 	public BlockBuyShop() {
 		super();
-		// TODO Auto-generated constructor stub
 		this.setBlockName(Reference.BLOCK_BUYSHOP);
 		this.setBlockTextureName(Reference.MODID + ":" + Reference.BLOCK_BUYSHOP);
 		// this.setBlockTextureName(Reference.MODBLOCK_MACHINE_ASSEMBLY_TABLE);

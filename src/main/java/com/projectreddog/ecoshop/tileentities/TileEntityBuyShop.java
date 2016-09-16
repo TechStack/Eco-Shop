@@ -10,7 +10,6 @@ import com.projectreddog.ecoshop.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -206,46 +205,46 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		}
 	}
 
-	public int getInventoryOnHand() {
-		if (getMode() == Reference.STORE_BLOCK_MODE_SELL) {
-			// we are selling the item in this slot so lets prep this stuff (slot 0)
-			if (inventory[0] != null) {
-				Item item = inventory[0].getItem();
-				// int qty = inventory[0].stackSize;
-				int qty = 0;
-				// TODO replace this placeholder with real code.
-				for (int i = 27; i < 31; i++) {
-					if (inventory[i] != null) {
-						Item item2 = inventory[i].getItem();
-						if (item2 == item) {
-							if (inventory[i].getItemDamage() == inventory[0].getItemDamage()) {
-								// Same Damage value only!
-								// same item count the stock!
-								qty = qty + inventory[i].stackSize;
-							}
-						}
-					}
-				}
-				return qty;
-			}
-		} else if (getMode() == Reference.STORE_BLOCK_MODE_BUY) {
-			// we need to count the money we have in inventory so we know how much the player can get paid for!
-			int qty = 0;
-			for (int i = 27; i < 31; i++) {
-				if (inventory[i] != null) {
-					Item item = inventory[i].getItem();
-					if (item instanceof ItemCredit) {
-						ItemCredit ic = (ItemCredit) item;
-						qty = qty + (ic.GetValue() * inventory[i].stackSize);
-					}
-				}
-			}
-			return qty;
-		}
-		// must be in an invalid mode just go ahead and return 0 as a fail safe
-		// Else i'm going to have to go ahead and ask you to work this weekend on TPS reports
-		return 0;
-	}
+	// public int getInventoryOnHand() {
+	// if (getMode() == Reference.STORE_BLOCK_MODE_SELL) {
+	// // we are selling the item in this slot so lets prep this stuff (slot 0)
+	// if (inventory[0] != null) {
+	// Item item = inventory[0].getItem();
+	// // int qty = inventory[0].stackSize;
+	// int qty = 0;
+	// // TODO replace this placeholder with real code.
+	// for (int i = 27; i < 31; i++) {
+	// if (inventory[i] != null) {
+	// Item item2 = inventory[i].getItem();
+	// if (item2 == item) {
+	// if (inventory[i].getItemDamage() == inventory[0].getItemDamage()) {
+	// // Same Damage value only!
+	// // same item count the stock!
+	// qty = qty + inventory[i].stackSize;
+	// }
+	// }
+	// }
+	// }
+	// return qty;
+	// }
+	// } else if (getMode() == Reference.STORE_BLOCK_MODE_BUY) {
+	// // we need to count the money we have in inventory so we know how much the player can get paid for!
+	// int qty = 0;
+	// for (int i = 27; i < 31; i++) {
+	// if (inventory[i] != null) {
+	// Item item = inventory[i].getItem();
+	// if (item instanceof ItemCredit) {
+	// ItemCredit ic = (ItemCredit) item;
+	// qty = qty + (ic.GetValue() * inventory[i].stackSize);
+	// }
+	// }
+	// }
+	// return qty;
+	// }
+	// // must be in an invalid mode just go ahead and return 0 as a fail safe
+	// // Else i'm going to have to go ahead and ask you to work this weekend on TPS reports
+	// return 0;
+	// }
 
 	public int getIOH() {
 		return itemsOnHand;
@@ -299,7 +298,6 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	@Override
 	public void updateEntity() {
-		// TODO Auto-generated method stub
 		// LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
 
 		//
@@ -312,8 +310,6 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			resupplyItemOutput();
 			consumeCreditInput();
 			resupplyCreditOutput();
-			// TODO maybe optimize a bit and only calculate if there was a change in stock
-			IOH = getInventoryOnHand();
 
 			if (mode == Reference.STORE_BLOCK_MODE_SELL) {
 				// we are selling
@@ -447,7 +443,6 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int p_70304_1_) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -467,38 +462,32 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	@Override
 	public String getInventoryName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer playerIn) {
-		// TODO Auto-generated method stub
 		return playerIn.getDistanceSq(this.xCoord, this.yCoord, this.zCoord) < 64;
 
 	}
 
 	@Override
 	public void openInventory() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void closeInventory() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		// TODO Auto-generated method stub
 		if (slot == 18 || slot == 19) {
 			if (itemStack.getItem() instanceof ItemEcoShopUpgrade) {
 				return true;
@@ -511,19 +500,16 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

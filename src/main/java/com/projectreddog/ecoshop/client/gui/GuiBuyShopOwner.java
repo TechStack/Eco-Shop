@@ -17,7 +17,6 @@ public class GuiBuyShopOwner extends GuiContainer {
 
 	@Override
 	protected void actionPerformed(GuiButton p_146284_1_) {
-		// TODO Auto-generated method stub
 		super.actionPerformed(p_146284_1_);
 
 	}

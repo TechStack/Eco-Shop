@@ -6,7 +6,6 @@ public class BlockSellShop extends BlockContainerEcoShop {
 
 	public BlockSellShop() {
 		super();
-		// TODO Auto-generated constructor stub
 		this.setBlockName(Reference.BLOCK_SELLSHOP);
 		this.setBlockTextureName(Reference.MODID + ":" + Reference.BLOCK_SELLSHOP);
 		// this.setBlockTextureName(Reference.MODBLOCK_MACHINE_ASSEMBLY_TABLE);

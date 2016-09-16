@@ -39,7 +39,6 @@ public class ContainerBuyShopOwner extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

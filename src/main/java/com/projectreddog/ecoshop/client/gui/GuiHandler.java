@@ -14,7 +14,6 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		// TODO Auto-generated method stub
 
 		if (ID == Reference.GUI_BLOCK_BUY_SHOP_OWNER) {
 			TileEntity entity = world.getTileEntity(x, y, z);
@@ -34,7 +33,6 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		// TODO Auto-generated method stub
 		if (ID == Reference.GUI_BLOCK_BUY_SHOP_OWNER) {
 			TileEntity entity = world.getTileEntity(x, y, z);
 			if (entity instanceof TileEntityBuyShop) {

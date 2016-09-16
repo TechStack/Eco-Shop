@@ -34,7 +34,6 @@ public class GuiBuyShop extends GuiContainer {
 
 	@Override
 	protected void actionPerformed(GuiButton btn) {
-		// TODO Auto-generated method stub
 		super.actionPerformed(btn);
 
 		//
@@ -157,7 +156,6 @@ public class GuiBuyShop extends GuiContainer {
 
 	@Override
 	public void updateScreen() {
-		// TODO Auto-generated method stub
 		super.updateScreen();
 
 		if (buyShop.getMode() == Reference.STORE_BLOCK_MODE_BUY) {
