@@ -26,12 +26,133 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	// customer slots right
 	// 12-26
 	// Owner only STOCK area
-	// 27 -80 new
+
+	// slot 27 items in
+	// slot 28 credits in
+	// slot 29 items out
+	// slot 30 credits out
 
 	private int mode = 0; // 0=buy, 1 = sell
 	private UUID owner;
 	private int CreditAmount;
 	private int IOH;
+
+	private int itemsOnHand;
+
+	private int creditsOnHand;
+
+	// last stack for ref used to save item details Ignore the stack size!
+	private ItemStack lastStack;
+
+	public void resupplyItemOutput() {
+		if (itemsOnHand > 0) {
+			// we have some on hand
+			ItemStack isOutput = inventory[29];
+			if (isOutput != null) {
+				// we have some stack !
+				if (isOutput.stackSize < isOutput.getMaxStackSize()) {
+					// we have room for more!
+					int amtToMove = isOutput.getMaxStackSize() - isOutput.stackSize;
+					if (amtToMove > itemsOnHand) {
+						// we can only move some :(
+						inventory[29].stackSize = inventory[29].stackSize + itemsOnHand;
+						itemsOnHand = 0;
+						LogHelper.info("Range Check Returned :");
+					} else {
+						// move just what is needed
+						inventory[29].stackSize = inventory[29].stackSize + amtToMove;
+						itemsOnHand = itemsOnHand - amtToMove;
+					}
+				}
+			} else {
+				// no stack so move it !
+				int amtToMove = lastStack.getMaxStackSize();
+
+				if (amtToMove > itemsOnHand) {
+					// we can only move some :(
+					// lastStack.stackSize = 0;
+					inventory[29] = lastStack.copy();
+					inventory[29].stackSize = itemsOnHand;
+					itemsOnHand = 0;
+				} else {
+					// move just what is needed
+					// lastStack.stackSize = 0;
+					inventory[29] = lastStack.copy();
+					inventory[29].stackSize = amtToMove;
+					itemsOnHand = itemsOnHand - amtToMove;
+
+				}
+
+			}
+
+		}
+	}
+
+	public void consumeItemInput() {
+		ItemStack isInput = inventory[27];
+		ItemStack isOutput = inventory[29];
+		if (isOutput != null) {
+
+			lastStack = isOutput.copy();
+		}
+		if (isInput != null) {
+			if (isOutput != null) {
+				// lastStack = isOutput;
+				// both slots occupied
+				// so they must Match else kick the stack out of the inventory into the world !! HAHAHAHAHAH
+
+				if (isInput.getItem() == isOutput.getItem() && isInput.getItemDamage() == isOutput.getItemDamage()) {
+					if (isOutput.stackSize < isOutput.getMaxStackSize()) {
+						// it can hold more
+						int amtToMove = isOutput.getMaxStackSize() - isOutput.stackSize;
+						if (isInput.stackSize > amtToMove) {
+							// move only part
+							itemsOnHand = itemsOnHand + isInput.stackSize - amtToMove;
+							inventory[29].stackSize = inventory[29].stackSize + amtToMove;
+							inventory[27] = null;
+						} else {
+							// move it all to output
+							inventory[29].stackSize = inventory[29].stackSize + isInput.stackSize;
+							inventory[27] = null;
+						}
+					} else {
+						itemsOnHand = itemsOnHand + isInput.stackSize;
+						inventory[27] = null; // Remove the item !
+					}
+				} else {
+					// Its a different item so pop it out !
+					inventory[27] = null; // Remove the item !
+					// TODO : Add code to remove this stack & spawn it in the world !
+				}
+			} else {
+				// input has an item output not so put it in output
+				inventory[29] = isInput; // Remove the item !
+				inventory[27] = null; // Remove the item !
+			}
+
+		}
+	}
+
+	public void consumeCreditInput() {
+		ItemStack isInput = inventory[28];
+		ItemStack isOutput = inventory[30];// not sure if needed
+		if (isOutput != null) {
+			// may not be needed
+			lastStack = isOutput.copy();
+		}
+		if (isInput != null) {
+			// MUST BE a credit type
+			if (isInput.getItem() instanceof ItemCredit) {
+				ItemCredit ic = (ItemCredit) isInput.getItem();
+				creditsOnHand = creditsOnHand + (ic.GetValue() * isInput.stackSize);
+				inventory[28] = null;
+			} else {
+				// its not a credit drop it on the ground in the world
+				// TODO spawn this in the world
+			}
+		}
+
+	}
 
 	public int getInventoryOnHand() {
 		if (getMode() == Reference.STORE_BLOCK_MODE_SELL) {
@@ -41,7 +162,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				// int qty = inventory[0].stackSize;
 				int qty = 0;
 				// TODO replace this placeholder with real code.
-				for (int i = 27; i < 81; i++) {
+				for (int i = 27; i < 31; i++) {
 					if (inventory[i] != null) {
 						Item item2 = inventory[i].getItem();
 						if (item2 == item) {
@@ -58,7 +179,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		} else if (getMode() == Reference.STORE_BLOCK_MODE_BUY) {
 			// we need to count the money we have in inventory so we know how much the player can get paid for!
 			int qty = 0;
-			for (int i = 27; i < 81; i++) {
+			for (int i = 27; i < 31; i++) {
 				if (inventory[i] != null) {
 					Item item = inventory[i].getItem();
 					if (item instanceof ItemCredit) {
@@ -75,7 +196,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	public int getIOH() {
-		return IOH;
+		return itemsOnHand;
 	}
 
 	public int getCreditAmount() {
@@ -135,6 +256,10 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			// client
 		} else {
 			// server
+			consumeItemInput();
+			resupplyItemOutput();
+			consumeCreditInput();
+
 			// TODO maybe optimize a bit and only calculate if there was a change in stock
 			IOH = getInventoryOnHand();
 
@@ -237,7 +362,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	public TileEntityBuyShop() {
-		inventory = new ItemStack[81];
+		inventory = new ItemStack[31];
 
 	}
 
@@ -404,7 +529,12 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		case 1:
 			return this.getCreditAmount();
 		case 2:
-			return IOH;
+			if (this.mode == Reference.STORE_BLOCK_MODE_BUY) {
+				return creditsOnHand + (inventory[30] == null ? 0 : inventory[30].stackSize * (inventory[30].getItem() instanceof ItemCredit ? ((ItemCredit) inventory[30].getItem()).GetValue() : 0));
+			} else {
+				return itemsOnHand + ((inventory[29] == null) ? 0 : inventory[29].stackSize);
+			}
+
 		default:
 			break;
 		}
@@ -421,7 +551,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			setCreditAmount(value);
 			break;
 		case 2:
-			IOH = value;
+			itemsOnHand = value;
 			break;
 		default:
 			break;

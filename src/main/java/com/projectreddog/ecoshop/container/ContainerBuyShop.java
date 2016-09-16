@@ -122,7 +122,7 @@ public class ContainerBuyShop extends Container {
 
 			// merges the item into player inventory since its in the Entity
 			if (slot < 27) {
-				if (!this.mergeItemStack(stackInSlot, 54, this.inventorySlots.size(), true)) {
+				if (!this.mergeItemStack(stackInSlot, 27, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			}
