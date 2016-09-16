@@ -125,7 +125,6 @@ public class GuiBuyShop extends GuiContainer {
 		// 8, ySize - 96 + 2, 4210752);
 		// fontRendererObj.drawString("Fuel: " + canner.fuelStorage, 5, 5, 4210752);
 
-		// TODO need to Draw owner name !
 		fontRendererObj.drawString("This store is:", 9, 12, 4210752);
 
 		fontRendererObj.drawString("For: " + buyShop.getCreditAmount(), 9, 30, 4210752);
