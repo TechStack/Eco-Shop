@@ -1,5 +1,6 @@
 package com.projectreddog.ecoshop.container;
 
+import com.projectreddog.ecoshop.inventory.SlotOwnerOnly;
 import com.projectreddog.ecoshop.inventory.SlotUpgradeOnly;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
@@ -34,7 +35,7 @@ public class ContainerBuyShop extends Container {
 		// addSlotToContainer(new Slot(buyShop, 9, 8 + 4 * 18, 9 + 0 * 18));
 		// addSlotToContainer(new Slot(buyShop, 10, 8 + 5 * 18, 9 + 0 * 18));
 		// ITEM used in transaction
-		addSlotToContainer(new Slot(buyShop, 0, 8 + 6 * 18, 9 + 0 * 18));
+		addSlotToContainer(new SlotOwnerOnly(buyShop, 0, 8 + 6 * 18, 9 + 0 * 18, buyShop.getOwner()));
 		// addSlotToContainer(new Slot(buyShop, 12, 8 + 4 * 18, 9 + 1 * 18));
 		// addSlotToContainer(new Slot(buyShop, 13, 8 + 5 * 18, 9 + 1 * 18));
 		// addSlotToContainer(new Slot(buyShop, 14, 8 + 6 * 18, 9 + 1 * 18));
@@ -43,8 +44,8 @@ public class ContainerBuyShop extends Container {
 		// addSlotToContainer(new Slot(buyShop, 17, 8 + 6 * 18, 9 + 2 * 18));
 
 		// upper right upgrades
-		addSlotToContainer(new SlotUpgradeOnly(buyShop, 1, 8 + 8 * 18, 9 + 0 * 18));
-		addSlotToContainer(new SlotUpgradeOnly(buyShop, 2, 8 + 8 * 18, 9 + 1 * 18));
+		addSlotToContainer(new SlotUpgradeOnly(buyShop, 1, 8 + 8 * 18, 9 + 0 * 18, buyShop.getOwner()));
+		addSlotToContainer(new SlotUpgradeOnly(buyShop, 2, 8 + 8 * 18, 9 + 1 * 18, buyShop.getOwner()));
 
 		///
 

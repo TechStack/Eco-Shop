@@ -2,30 +2,17 @@ package com.projectreddog.ecoshop.inventory;
 
 import java.util.UUID;
 
-import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 
-public class SlotUpgradeOnly extends Slot {
+public class SlotOwnerOnly extends Slot {
 	UUID owner;
 
-	public SlotUpgradeOnly(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_, UUID owner) {
+	public SlotOwnerOnly(IInventory p_i1824_1_, int p_i1824_2_, int p_i1824_3_, int p_i1824_4_, UUID owner) {
 		super(p_i1824_1_, p_i1824_2_, p_i1824_3_, p_i1824_4_);
 		this.owner = owner;
-
-	}
-
-	@Override
-	public boolean isItemValid(ItemStack itemStack) {
-		if (itemStack.getItem() instanceof ItemEcoShopUpgrade) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	/**
