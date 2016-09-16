@@ -456,29 +456,93 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		if (slot == 18 || slot == 19) {
+
+		// upgrade slots
+		// 1-2
+		// customer slots left
+		// 3-11
+		// customer slots right
+		// 12-26
+		// Owner only STOCK area
+
+		// slot 27 items in
+		// slot 28 credits in
+		// slot 29 items out
+		// slot 30 credits out
+
+		if (slot == 1 || slot == 2) {
 			if (itemStack.getItem() instanceof ItemEcoShopUpgrade) {
 				return true;
 			} else {
 				return false;
 			}
 		}
+		if (slot == 28) {
+			if (itemStack.getItem() instanceof ItemCredit) {
+				return true;
+
+			} else {
+				return false;
+			}
+		}
+		if (slot == 27) {
+			if (itemStack.getItem() instanceof ItemCredit) {
+				// dont allow money to be instrted into the item in slot
+				return false;
+
+			} else {
+				return true;
+			}
+		}
 		return true;
 	}
 
+	/**
+	 * Returns an array containing the indices of the slots that can be accessed by automation on the given side of this block.
+	 */
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+	public int[] getAccessibleSlotsFromSide(int side) {
+		// ??? {DOWN, UP, NORTH, SOUTH, WEST, EAST}; // GUESS
+		// upgrade slots
+		// 1-2
+		// customer slots left
+		// 3-11
+		// customer slots right
+		// 12-26
+		// Owner only STOCK area
+
+		// slot 27 items in
+		// slot 28 credits in
+		// slot 29 items out
+		// slot 30 credits out
+
+		switch (side) {
+		case 0:// down
+			return new int[] { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+		case 1:// up
+			return new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+		case 2:// n
+			return new int[] { 27 };
+		case 3:// s
+			return new int[] { 27 };
+		case 4:// w
+			return new int[] { 27 };
+		case 5:// e
+			return new int[] { 27 };
+		}
+
 		return null;
 	}
 
 	@Override
-	public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_) {
-		return false;
+	public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+		return isItemValidForSlot(slot, itemStack);
 	}
 
 	@Override
-	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_) {
-		return false;
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		// TODO need to test & review this
+		return true;
 	}
 
 	@Override
