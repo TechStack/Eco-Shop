@@ -316,43 +316,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				// slots
 
 			} else if (mode == Reference.STORE_BLOCK_MODE_BUY) {
-				/// block is buying the item in the slot 0
-				ItemStack stackToBuy = inventory[0];
-				if (stackToBuy != null) {
-
-					if (IOH >= CreditAmount) {
-						// we have enough or more than enough
-						int amountNeeded = stackToBuy.stackSize;
-						for (int i = 3; i < 12; i++) {
-							ItemStack stackToCheck = inventory[i];
-							if (stackToCheck != null) {
-								if (stackToCheck.getItem() == stackToBuy.getItem()) {
-									// same item !
-									if (stackToCheck.getItemDamage() == stackToBuy.getItemDamage()) {
-										// same damage !
-										// check amounts
-										int saveStackSize = stackToCheck.stackSize;
-										// check here
-										if (amountNeeded >= stackToCheck.stackSize) {
-											decrStackSize(i, stackToCheck.stackSize);
-											amountNeeded = amountNeeded - saveStackSize;
-
-										} else if (amountNeeded < stackToCheck.stackSize) {
-											decrStackSize(i, amountNeeded);
-											amountNeeded = amountNeeded - amountNeeded;
-
-										}
-									}
-								}
-							}
-							if (amountNeeded < 1) {
-								// TODO add code to reduce stock inventory 27-80
-								amountToCustomerOutSlots(CreditAmount);
-								break;
-							}
-						}
-					}
-				}
+				// we are buying a block
 			}
 		}
 	}
