@@ -300,6 +300,20 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		this.mode = mode;
 	}
 
+	public int calcCustomersPayment() {
+		// customers input slots
+		// 3-11
+		int payAmount = 0;
+		for (int i = 3; i < 12; i++) {
+			if (getStackInSlot(i) != null) {
+				if (getStackInSlot(i).getItem() instanceof ItemCredit) {
+					payAmount = payAmount + ((ItemCredit) getStackInSlot(i).getItem()).GetValue();
+				}
+			}
+		}
+		return payAmount;
+	}
+
 	@Override
 	public void updateEntity() {
 		// LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
@@ -319,10 +333,72 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				// we are selling
 				// slots
 
+				// calculate the value of the input
+				int amtPaid = calcCustomersPayment();
+
+				// if input is > required amount (creditAmount) then check if we have enoug to sell
+				if (amtPaid > CreditAmount) {
+					// if we have enough to sell
+					if (getStackInSlot(0) != null) {
+						if (getStackInSlot(29) != null) {
+							if (itemsOnHand + getStackInSlot(29).stackSize >= getStackInSlot(0).stackSize) {
+								int amtToSell = getStackInSlot(0).stackSize;
+								// then check if we have room in the output sell them the stack worth
+								if (isOutputRoomForStack(getStackInSlot(0))) {
+									// we have room !
+
+									// remove the amt of money required & spawn the items in output stacks & reduce the inventory level
+								}
+
+							}
+						}
+					}
+				}
+
 			} else if (mode == Reference.STORE_BLOCK_MODE_BUY) {
 				// we are buying a block
 			}
 		}
+	}
+
+	public boolean isOutputRoomForStack(ItemStack itemStack) {
+		if (itemStack == null) {
+			// input is null so just return false
+			return false;
+		}
+
+		// cache the item type, damage , stack size
+		int qtyNeeded = itemStack.stackSize;
+		for (int i = 12; i <= 26; i++) {
+
+			if (doStacksMatchOtherThanSize(itemStack, getStackInSlot(i))) {
+				// same stack ! check sizes
+				if (getStackInSlot(i) != null) {
+					qtyNeeded = qtyNeeded - (getStackInSlot(i).getMaxStackSize() - getStackInSlot(i).stackSize);
+					if (qtyNeeded <= 0) {
+						// as soon as we have enough space stop & return dont care about the rest.
+						return true;
+					}
+				}
+			}
+
+		}
+
+		return false;
+	}
+
+	public boolean doStacksMatchOtherThanSize(ItemStack is1, ItemStack is2) {
+		if (is1 != null) {
+			if (is2 != null) {
+				if (is1.getItem() == is2.getItem()) {
+					if (is1.getItemDamage() == is2.getItemDamage()) {
+						return true;
+					}
+				}
+			}
+		}
+		// default
+		return false;
 	}
 
 	public boolean amountToCustomerOutSlots(int amount) {
