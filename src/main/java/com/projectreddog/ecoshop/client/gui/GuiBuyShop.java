@@ -35,40 +35,11 @@ public class GuiBuyShop extends GuiContainer {
 	@Override
 	protected void actionPerformed(GuiButton btn) {
 		super.actionPerformed(btn);
-
-		//
-		// TODO need to send packet to the server!
 		ModNetwork.simpleNetworkWrapper.sendToServer((new EcoShopStoreButtonClickToServer(btn.id, buyShop.xCoord, buyShop.yCoord, buyShop.zCoord)));
-
-		//
-		// if (btn.id == Reference.GUI_BUTTON_ID_MINUS) {
-		// CreditAmount--;
-		// }
-		// if (btn.id == Reference.GUI_BUTTON_ID_PLUS) {
-		// CreditAmount++;
-		// }
-		// if (btn.id == Reference.GUI_BUTTON_ID_MINUS10) {
-		// CreditAmount = CreditAmount - 10;
-		// }
-		// if (btn.id == Reference.GUI_BUTTON_ID_PLUS10) {
-		// CreditAmount = CreditAmount + 10;
-		// }
-		//
-		// if (btn.id == Reference.GUI_BUTTON_ID_MINUS100) {
-		// CreditAmount = CreditAmount - 100;
-		// }
-		// if (btn.id == Reference.GUI_BUTTON_ID_PLUS100) {
-		// CreditAmount = CreditAmount + 100;
-		// }
-		//
-		// if (CreditAmount < 0) {
-		// CreditAmount = 0;
-		// }
-
 	}
 
 	public GuiBuyShop(InventoryPlayer inventoryPlayer, TileEntityBuyShop buyShop) {
-		// the container is instanciated and passed to the superclass for
+		// the container is instantiated and passed to the superclass for
 		// handling
 
 		super(new ContainerBuyShop(inventoryPlayer, buyShop));
