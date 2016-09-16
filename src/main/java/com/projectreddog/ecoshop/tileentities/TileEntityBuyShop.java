@@ -2,6 +2,7 @@ package com.projectreddog.ecoshop.tileentities;
 
 import java.util.UUID;
 
+import com.projectreddog.ecoshop.init.ModItems;
 import com.projectreddog.ecoshop.item.ItemCredit;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.reference.Reference;
@@ -154,6 +155,57 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	}
 
+	public void resupplyCreditOutput() {
+		// keep credits in the output stack
+		ItemStack isCreditOut = inventory[30];
+		if (isCreditOut != null) {
+			// we have a stack in the output ! for now keep as is
+			// TODO make this stack grow to max size if we have the $$$ in place
+		} else {
+			if (creditsOnHand > 0) {
+				// no stack & we have credits put max amt in output!!.
+
+				if (creditsOnHand > 10000) {
+					int qty = creditsOnHand / 10000;
+					creditsOnHand = creditsOnHand - 10000 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_TENTHOUSAND, qty);
+				} else if (creditsOnHand > 5000) {
+					int qty = creditsOnHand / 5000;
+					creditsOnHand = creditsOnHand - 5000 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_FIVETHOUSAND, qty);
+				} else if (creditsOnHand > 1000) {
+					int qty = creditsOnHand / 1000;
+					creditsOnHand = creditsOnHand - 1000 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_ONETHOUSAND, qty);
+				} else if (creditsOnHand > 500) {
+					int qty = creditsOnHand / 500;
+					creditsOnHand = creditsOnHand - 500 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_FIVEHUNDRED, qty);
+				} else if (creditsOnHand > 100) {
+					int qty = creditsOnHand / 100;
+					creditsOnHand = creditsOnHand - 100 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_ONEHUNDRED, qty);
+				} else if (creditsOnHand > 20) {
+					int qty = creditsOnHand / 20;
+					creditsOnHand = creditsOnHand - 20 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_TWENTY, qty);
+				} else if (creditsOnHand > 10) {
+					int qty = creditsOnHand / 10;
+					creditsOnHand = creditsOnHand - 10 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_TEN, qty);
+				} else if (creditsOnHand > 5) {
+					int qty = creditsOnHand / 5;
+					creditsOnHand = creditsOnHand - 5 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_FIVE, qty);
+				} else if (creditsOnHand > 1) {
+					int qty = creditsOnHand / 1;
+					creditsOnHand = creditsOnHand - 1 * qty;
+					inventory[30] = new ItemStack(ModItems.CREDIT_ONE, qty);
+				}
+			}
+		}
+	}
+
 	public int getInventoryOnHand() {
 		if (getMode() == Reference.STORE_BLOCK_MODE_SELL) {
 			// we are selling the item in this slot so lets prep this stuff (slot 0)
@@ -259,7 +311,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			consumeItemInput();
 			resupplyItemOutput();
 			consumeCreditInput();
-
+			resupplyCreditOutput();
 			// TODO maybe optimize a bit and only calculate if there was a change in stock
 			IOH = getInventoryOnHand();
 

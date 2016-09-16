@@ -16,6 +16,9 @@ public class ModRecipies {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_FIVEHUNDRED), new Object[] { ModItems.CREDIT_ONEHUNDRED, ModItems.CREDIT_ONEHUNDRED, ModItems.CREDIT_ONEHUNDRED, ModItems.CREDIT_ONEHUNDRED, ModItems.CREDIT_ONEHUNDRED });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_ONETHOUSAND), new Object[] { ModItems.CREDIT_FIVEHUNDRED, ModItems.CREDIT_FIVEHUNDRED });
 
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_FIVETHOUSAND), new Object[] { ModItems.CREDIT_ONETHOUSAND, ModItems.CREDIT_ONETHOUSAND, ModItems.CREDIT_ONETHOUSAND, ModItems.CREDIT_ONETHOUSAND, ModItems.CREDIT_ONETHOUSAND });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_TENTHOUSAND), new Object[] { ModItems.CREDIT_FIVETHOUSAND, ModItems.CREDIT_FIVETHOUSAND });
+
 		// convert down
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_ONE, 5), new Object[] { ModItems.CREDIT_FIVE });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_FIVE, 2), new Object[] { ModItems.CREDIT_TEN });
@@ -23,6 +26,9 @@ public class ModRecipies {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_TWENTY, 5), new Object[] { ModItems.CREDIT_ONEHUNDRED });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_ONEHUNDRED, 5), new Object[] { ModItems.CREDIT_FIVEHUNDRED });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_FIVEHUNDRED, 2), new Object[] { ModItems.CREDIT_ONETHOUSAND });
+
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_ONETHOUSAND, 5), new Object[] { ModItems.CREDIT_FIVETHOUSAND });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.CREDIT_FIVETHOUSAND, 2), new Object[] { ModItems.CREDIT_TENTHOUSAND });
 
 	}
 
