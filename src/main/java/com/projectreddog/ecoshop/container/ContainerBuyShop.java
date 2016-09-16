@@ -259,6 +259,7 @@ public class ContainerBuyShop extends Container {
 			// }
 
 			icrafting.sendProgressBarUpdate(this, 2, this.buyShop.getField(2));
+			icrafting.sendProgressBarUpdate(this, 3, this.buyShop.getField(3));
 
 		}
 

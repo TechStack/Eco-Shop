@@ -41,6 +41,10 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	private int creditsOnHand;
 
+	public int getCreditsOnHand() {
+		return creditsOnHand;
+	}
+
 	// last stack for ref used to save item details Ignore the stack size!
 	private ItemStack lastStack;
 
@@ -531,11 +535,12 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		case 1:
 			return this.getCreditAmount();
 		case 2:
-			if (this.mode == Reference.STORE_BLOCK_MODE_BUY) {
-				return creditsOnHand + (inventory[30] == null ? 0 : inventory[30].stackSize * (inventory[30].getItem() instanceof ItemCredit ? ((ItemCredit) inventory[30].getItem()).GetValue() : 0));
-			} else {
-				return itemsOnHand + ((inventory[29] == null) ? 0 : inventory[29].stackSize);
-			}
+
+			return itemsOnHand + ((inventory[29] == null) ? 0 : inventory[29].stackSize);
+
+		case 3:
+
+			return creditsOnHand + (inventory[30] == null ? 0 : inventory[30].stackSize * (inventory[30].getItem() instanceof ItemCredit ? ((ItemCredit) inventory[30].getItem()).GetValue() : 0));
 
 		default:
 			break;
@@ -555,6 +560,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		case 2:
 			itemsOnHand = value;
 			break;
+		case 3:
+			creditsOnHand = value;
 		default:
 			break;
 		}
@@ -562,7 +569,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	public int getFieldCount() {
-		return 3;
+		return 4;
 	}
 
 }

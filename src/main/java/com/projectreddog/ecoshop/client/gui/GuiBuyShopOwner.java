@@ -52,11 +52,11 @@ public class GuiBuyShopOwner extends GuiContainer {
 		fontRendererObj.drawString("Shop Owner: " + buyShop.GetOwnerName(), 9, 10, 4210752);
 
 		fontRendererObj.drawString("In:", 28, 48, 4210752);
-		fontRendererObj.drawString("Stored: " + 1000, 5, 65, 4210752);
+		fontRendererObj.drawString("Stored: " + buyShop.getIOH(), 5, 65, 4210752);
 		fontRendererObj.drawString("Out:", 22, 87, 4210752);
 
 		fontRendererObj.drawString("In:", 100, 48, 4210752);
-		fontRendererObj.drawString("Credits: " + 1000, 75, 65, 4210752);
+		fontRendererObj.drawString("Credits: " + buyShop.getCreditsOnHand(), 75, 65, 4210752);
 		fontRendererObj.drawString("Out:", 94, 87, 4210752);
 
 		fontRendererObj.drawString("Items:", 35, 30, 4210752);
