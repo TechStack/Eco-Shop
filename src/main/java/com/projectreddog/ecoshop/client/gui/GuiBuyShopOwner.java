@@ -49,7 +49,7 @@ public class GuiBuyShopOwner extends GuiContainer {
 		// 8, ySize - 96 + 2, 4210752);
 		// fontRendererObj.drawString("Fuel: " + canner.fuelStorage, 5, 5, 4210752);
 
-		// TODO need to Draw owner name !
+		fontRendererObj.drawString("Shop Owner: " + buyShop.GetOwnerName(), 9, 10, 4210752);
 
 		fontRendererObj.drawString("In:", 28, 48, 4210752);
 		fontRendererObj.drawString("Stored: " + 1000, 5, 65, 4210752);
