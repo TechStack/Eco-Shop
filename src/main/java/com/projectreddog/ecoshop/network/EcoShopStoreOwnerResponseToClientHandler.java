@@ -34,6 +34,7 @@ public class EcoShopStoreOwnerResponseToClientHandler implements IMessageHandler
 					if (te instanceof TileEntityBuyShop) {
 						UUID owner = new UUID(message.most, message.least);
 						((TileEntityBuyShop) te).setOwner(owner);
+						((TileEntityBuyShop) te).setIsOwner(message.isOwner);
 
 					}
 				}

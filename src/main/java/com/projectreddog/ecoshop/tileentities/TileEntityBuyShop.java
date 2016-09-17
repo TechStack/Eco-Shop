@@ -42,6 +42,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	private int itemsOnHand;
 
 	private int creditsOnHand;
+	private boolean isOwner;
 
 	public int getCreditsOnHand() {
 		return creditsOnHand;
@@ -305,9 +306,23 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		} else {
 			// func_152358_ax= getting the playerprofilecache
 			// func_152652_a gets the profile
-			return MinecraftServer.getServer().func_152358_ax().func_152652_a(owner).getName();
+			if (!worldObj.isRemote) {
+				return MinecraftServer.getServer().func_152358_ax().func_152652_a(owner).getName();
+			} else {
+				// TODO: solve client issue not getting names possilby lookup based on owner entity ID ?
+				return "";
+			}
 
 		}
+	}
+
+	public boolean isOwner() {
+		return isOwner;
+	}
+
+	public void setIsOwner(boolean value) {
+		// should be called client only !
+		isOwner = value;
 	}
 
 	public UUID getOwner() {

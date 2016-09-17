@@ -11,18 +11,20 @@ public class EcoShopStoreOwnerResponseToClient implements IMessage {
 	public int z;
 	public long least;
 	public long most;
+	public boolean isOwner;
 
 	public EcoShopStoreOwnerResponseToClient() {
 
 	}
 
-	public EcoShopStoreOwnerResponseToClient(int x, int y, int z, long most, long least) {
+	public EcoShopStoreOwnerResponseToClient(int x, int y, int z, long most, long least, boolean isOwner) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.most = most;
 		this.least = least;
+		this.isOwner = isOwner;
 
 	}
 
@@ -33,6 +35,7 @@ public class EcoShopStoreOwnerResponseToClient implements IMessage {
 		this.z = buf.readInt();
 		this.most = buf.readLong();
 		this.least = buf.readLong();
+		this.isOwner = buf.readBoolean();
 
 	}
 
@@ -43,6 +46,7 @@ public class EcoShopStoreOwnerResponseToClient implements IMessage {
 		buf.writeInt(z);
 		buf.writeLong(most);
 		buf.writeLong(least);
+		buf.writeBoolean(isOwner);
 	}
 
 }
