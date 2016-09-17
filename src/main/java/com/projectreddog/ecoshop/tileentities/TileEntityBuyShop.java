@@ -307,10 +307,15 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		for (int i = 3; i < 12; i++) {
 			if (getStackInSlot(i) != null) {
 				if (getStackInSlot(i).getItem() instanceof ItemCredit) {
-					payAmount = payAmount + ((ItemCredit) getStackInSlot(i).getItem()).GetValue();
+					payAmount = payAmount + ((ItemCredit) getStackInSlot(i).getItem()).GetValue() * getStackInSlot(i).stackSize;
+				} else {
+					// erorr occured customer has something other than cash in the machine !!
+					// ERRRRRRRR
+					return -1;
 				}
 			}
 		}
+		LogHelper.info("payment amount :" + payAmount);
 		return payAmount;
 	}
 
@@ -337,7 +342,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				int amtPaid = calcCustomersPayment();
 
 				// if input is > required amount (creditAmount) then check if we have enoug to sell
-				if (amtPaid > CreditAmount) {
+				if (amtPaid >= CreditAmount) {
 					// if we have enough to sell
 					if (getStackInSlot(0) != null) {
 						if (getStackInSlot(29) != null) {
@@ -346,8 +351,83 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 								// then check if we have room in the output sell them the stack worth
 								if (isOutputRoomForStack(getStackInSlot(0))) {
 									// we have room !
-
 									// remove the amt of money required & spawn the items in output stacks & reduce the inventory level
+									setCutomerChange(amtPaid - CreditAmount);
+
+									if (itemsOnHand >= amtToSell) {
+										// enough is present in the IOH no need to pull from that output stack
+										itemsOnHand = itemsOnHand - amtToSell;
+										int i = 12;
+										while (amtToSell > 0 && i < 27) {
+											// 12-26
+											if (getStackInSlot(i) != null) {
+												// we have a stack in this slot so run with it
+												if (doStacksMatchOtherThanSize(getStackInSlot(0), getStackInSlot(i))) {
+													// we have same stack in this slot so add to it if we can
+													if (getStackInSlot(i).stackSize < getStackInSlot(i).getMaxStackSize()) {
+														// room
+
+														int room = (getStackInSlot(i).getMaxStackSize() - getStackInSlot(i).stackSize);
+														if (room >= amtToSell) {
+															getStackInSlot(i).stackSize = getStackInSlot(i).stackSize + amtToSell;
+															amtToSell = 0;
+														} else {
+															getStackInSlot(i).stackSize = getStackInSlot(i).stackSize + room;
+															amtToSell = amtToSell - room;
+														}
+
+													}
+												}
+											} else {
+												setInventorySlotContents(i, getStackInSlot(0).copy());
+												amtToSell = 0;
+
+											}
+											i++;
+										}
+
+									} else {
+										// need to pull from IOH & slot or just slot
+										// enough is present in the IOH no need to pull from that output stack
+
+										if (getStackInSlot(29) != null) {
+											getStackInSlot(29).stackSize = getStackInSlot(29).stackSize - amtToSell - itemsOnHand;
+											if (getStackInSlot(29).stackSize <= 0) {
+												setInventorySlotContents(29, null);
+											}
+
+										}
+										itemsOnHand = 0;
+										int i = 12;
+										while (amtToSell > 0 && i < 27) {
+											// 12-26
+											if (getStackInSlot(i) != null) {
+												// we have a stack in this slot so run with it
+												if (doStacksMatchOtherThanSize(getStackInSlot(0), getStackInSlot(i))) {
+													// we have same stack in this slot so add to it if we can
+													if (getStackInSlot(i).stackSize < getStackInSlot(i).getMaxStackSize()) {
+														// room
+
+														int room = (getStackInSlot(i).getMaxStackSize() - getStackInSlot(i).stackSize);
+														if (room >= amtToSell) {
+															getStackInSlot(i).stackSize = getStackInSlot(i).stackSize + amtToSell;
+															amtToSell = 0;
+														} else {
+															getStackInSlot(i).stackSize = getStackInSlot(i).stackSize + room;
+															amtToSell = amtToSell - room;
+														}
+
+													}
+												}
+											} else {
+												// slot is null
+												setInventorySlotContents(i, getStackInSlot(0).copy());
+												amtToSell = 0;
+
+											}
+											i++;
+										}
+									}
 								}
 
 							}
@@ -359,6 +439,88 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				// we are buying a block
 			}
 		}
+	}
+
+	public boolean setCutomerChange(int amount) {
+
+		int tenThousand = amount / 10000;
+		amount = amount - (tenThousand * 10000);
+
+		int fiveThousand = amount / 5000;
+		amount = amount - (fiveThousand * 5000);
+
+		int oneThousand = amount / 1000;
+		amount = amount - (oneThousand * 1000);
+
+		int fiveHundred = amount / 500;
+		amount = amount - (fiveHundred * 500);
+
+		int oneHundred = amount / 100;
+		amount = amount - (oneHundred * 100);
+
+		int twenty = amount / 20;
+		amount = amount - (twenty * 20);
+
+		int ten = amount / 10;
+		amount = amount - (ten * 10);
+
+		int five = amount / 5;
+		amount = amount - (five * 5);
+
+		int one = amount / 1;
+		amount = amount - (one * 5);
+		/// 3- 11
+
+		if (tenThousand > 0) {
+			setInventorySlotContents(3, new ItemStack(ModItems.CREDIT_TENTHOUSAND, tenThousand));
+		} else {
+			setInventorySlotContents(3, null);
+		}
+
+		if (fiveThousand > 0) {
+			setInventorySlotContents(4, new ItemStack(ModItems.CREDIT_FIVETHOUSAND, fiveThousand));
+		} else {
+			setInventorySlotContents(4, null);
+		}
+		if (oneThousand > 0) {
+			setInventorySlotContents(5, new ItemStack(ModItems.CREDIT_ONETHOUSAND, oneThousand));
+		} else {
+			setInventorySlotContents(5, null);
+		}
+		if (fiveHundred > 0) {
+			setInventorySlotContents(6, new ItemStack(ModItems.CREDIT_FIVEHUNDRED, fiveHundred));
+		} else {
+			setInventorySlotContents(6, null);
+		}
+		if (oneHundred > 0) {
+			setInventorySlotContents(7, new ItemStack(ModItems.CREDIT_ONEHUNDRED, oneHundred));
+		} else {
+			setInventorySlotContents(7, null);
+		}
+		if (twenty > 0) {
+			setInventorySlotContents(8, new ItemStack(ModItems.CREDIT_TWENTY, twenty));
+		} else {
+			setInventorySlotContents(8, null);
+		}
+		if (ten > 0) {
+			setInventorySlotContents(9, new ItemStack(ModItems.CREDIT_TEN, ten));
+		} else {
+			setInventorySlotContents(9, null);
+		}
+		if (five > 0) {
+			setInventorySlotContents(10, new ItemStack(ModItems.CREDIT_FIVE, five));
+		} else {
+			setInventorySlotContents(10, null);
+		}
+		if (one > 0) {
+			setInventorySlotContents(11, new ItemStack(ModItems.CREDIT_ONE, one));
+		} else {
+			setInventorySlotContents(11, null);
+		}
+
+		// LogHelper.info("1000 x " + oneThousand + ", 500 x " + fiveHundred + ", 100 x " + oneHundred + ", 20 x " + twenty + ", 10 x " + ten + ", 5 x " + five + ", 1 x " + one);
+		return true;
+
 	}
 
 	public boolean isOutputRoomForStack(ItemStack itemStack) {
@@ -380,6 +542,16 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 						return true;
 					}
 				}
+			} else {
+
+				// check for null output slot!
+
+				if (getStackInSlot(i) == null) {
+
+					// we have an empty slot so return ture because we have room in this empty slot!
+					return true;
+				}
+
 			}
 
 		}
