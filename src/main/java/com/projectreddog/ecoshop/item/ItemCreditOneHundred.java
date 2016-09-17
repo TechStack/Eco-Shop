@@ -7,7 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 public class ItemCreditOneHundred extends ItemCredit {
 	public ItemCreditOneHundred() {
 		super();
-		this.setUnlocalizedName(Reference.ITEM_CREDIT_ONEHUNDRED);
+		this.setUnlocalizedName(Reference.MODID + ":" + Reference.ITEM_CREDIT_ONEHUNDRED);
 		this.setTextureName(Reference.MODID + ":" + Reference.ITEM_CREDIT_ONEHUNDRED);
 		this.setCreativeTab(CreativeTabs.tabMisc);
 

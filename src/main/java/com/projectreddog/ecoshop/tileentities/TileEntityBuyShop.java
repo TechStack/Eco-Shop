@@ -7,7 +7,6 @@ import com.projectreddog.ecoshop.item.ItemCredit;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.item.ItemUnlimitedInventory;
 import com.projectreddog.ecoshop.reference.Reference;
-import com.projectreddog.ecoshop.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -63,7 +62,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 						// we can only move some :(
 						inventory[29].stackSize = inventory[29].stackSize + itemsOnHand;
 						itemsOnHand = 0;
-						LogHelper.info("Range Check Returned :");
+						// LogHelper.info("Range Check Returned :");
 					} else {
 						// move just what is needed
 						inventory[29].stackSize = inventory[29].stackSize + amtToMove;
@@ -311,13 +310,13 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				if (getStackInSlot(i).getItem() instanceof ItemCredit) {
 					payAmount = payAmount + ((ItemCredit) getStackInSlot(i).getItem()).GetValue() * getStackInSlot(i).stackSize;
 				} else {
-					// erorr occured customer has something other than cash in the machine !!
+					// error occured customer has something other than cash in the machine !!
 					// ERRRRRRRR
 					return -1;
 				}
 			}
 		}
-		LogHelper.info("payment amount :" + payAmount);
+		// LogHelper.info("payment amount :" + payAmount);
 		return payAmount;
 	}
 
@@ -802,7 +801,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		int one = amount / 1;
 		amount = amount - (one * 5);
 
-		LogHelper.info("1000 x " + oneThousand + ", 500 x " + fiveHundred + ", 100 x " + oneHundred + ", 20 x " + twenty + ", 10 x " + ten + ", 5 x " + five + ", 1 x " + one);
+		// LogHelper.info("1000 x " + oneThousand + ", 500 x " + fiveHundred + ", 100 x " + oneHundred + ", 20 x " + twenty + ", 10 x " + ten + ", 5 x " + five + ", 1 x " + one);
 		return false;
 	}
 

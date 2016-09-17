@@ -8,7 +8,7 @@ public class ItemCreditTwenty extends ItemCredit {
 
 	public ItemCreditTwenty() {
 		super();
-		this.setUnlocalizedName(Reference.ITEM_CREDIT_TWENTY);
+		this.setUnlocalizedName(Reference.MODID + ":" + Reference.ITEM_CREDIT_TWENTY);
 		this.setTextureName(Reference.MODID + ":" + Reference.ITEM_CREDIT_TWENTY);
 		this.setCreativeTab(CreativeTabs.tabMisc);
 

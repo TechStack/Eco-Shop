@@ -1,0 +1,12 @@
+item.ECOSHOP:CHECK.name=Check
+item.ECOSHOP:CREDIT_ONE.name=One Credit Bill
+item.ECOSHOP:CREDIT_FIVE.name=Five Credit Bill
+item.ECOSHOP:CREDIT_TEN.name=Ten Credit Bill
+item.ECOSHOP:CREDIT_TWENTY.name=Twenty Credit Bill
+item.ECOSHOP:CREDIT_ONEHUNDRED.name=One Hundred Credit Bill
+item.ECOSHOP:CREDIT_FIVEHUNDRED.name=Five Hundred Credit Bill
+item.ECOSHOP:CREDIT_ONETHOUSAND.name=One Thousand Credit Bill
+item.ECOSHOP:CREDIT_FIVETHOUSAND.name=Five Thousand Credit Bill
+item.ECOSHOP:CREDIT_TENTHOUSAND.name=Ten Thousand Credit Bill
+item.ECOSHOP:UPGRADE_UNLIMITED_INVENTORY.name=Unlimited Inventory Upgrade
+tile.ecoshop:BUYSHOP.name=Store
