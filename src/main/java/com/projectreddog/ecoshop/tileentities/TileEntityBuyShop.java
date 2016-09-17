@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.projectreddog.ecoshop.init.ModItems;
 import com.projectreddog.ecoshop.item.ItemCredit;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
+import com.projectreddog.ecoshop.item.ItemUnlimitedInventory;
 import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.utility.LogHelper;
 
@@ -320,6 +321,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		return payAmount;
 	}
 
+	boolean hasUnlimitedInventoryUpgrade = false;
+
 	@Override
 	public void updateEntity() {
 		// LogHelper.info("Range Check Returned :" + isRangeInSecondRange(0, 8, 20, 28));
@@ -334,6 +337,21 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			resupplyItemOutput();
 			consumeCreditInput();
 			resupplyCreditOutput();
+			// used to reset incase player has take it out
+			hasUnlimitedInventoryUpgrade = false;
+			if (inventory[1] != null) {
+				if (inventory[1].getItem() instanceof ItemUnlimitedInventory) {
+					// set unlimited credits & IOH
+					hasUnlimitedInventoryUpgrade = true;
+				}
+			}
+			if (inventory[2] != null) {
+				if (inventory[1].getItem() instanceof ItemUnlimitedInventory) {
+					// set unlimited credits
+					hasUnlimitedInventoryUpgrade = true;
+				}
+
+			}
 
 			if (mode == Reference.STORE_BLOCK_MODE_SELL) {
 				// we are selling
@@ -358,7 +376,9 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 									if (itemsOnHand >= amtToSell) {
 										// enough is present in the IOH no need to pull from that output stack
-										itemsOnHand = itemsOnHand - amtToSell;
+										if (!hasUnlimitedInventoryUpgrade) {
+											itemsOnHand = itemsOnHand - amtToSell;
+										}
 										int i = 12;
 										while (amtToSell > 0 && i < 27) {
 											// 12-26
@@ -391,15 +411,18 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 									} else {
 										// need to pull from IOH & slot or just slot
 										// enough is present in the IOH no need to pull from that output stack
+										if (!hasUnlimitedInventoryUpgrade) {
 
-										if (getStackInSlot(29) != null) {
-											getStackInSlot(29).stackSize = getStackInSlot(29).stackSize - amtToSell - itemsOnHand;
-											if (getStackInSlot(29).stackSize <= 0) {
-												setInventorySlotContents(29, null);
+											if (getStackInSlot(29) != null) {
+												getStackInSlot(29).stackSize = getStackInSlot(29).stackSize - amtToSell - itemsOnHand;
+												if (getStackInSlot(29).stackSize <= 0) {
+													setInventorySlotContents(29, null);
+												}
+
 											}
 
+											itemsOnHand = 0;
 										}
-										itemsOnHand = 0;
 										int i = 12;
 										while (amtToSell > 0 && i < 27) {
 											// 12-26
@@ -455,7 +478,9 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 									// give $$$$ amt to output!
 
 									setCutomerOutputChange(outputAmt + CreditAmount);
-									creditsOnHand = creditsOnHand - CreditAmount;
+									if (!hasUnlimitedInventoryUpgrade) {
+										creditsOnHand = creditsOnHand - CreditAmount;
+									}
 
 									// prevent rollover issues so put output to input so it corrects with the negative amt that could otherwise be introduced :P HaCks!
 									inventory[28] = inventory[30];
@@ -468,6 +493,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				}
 			}
 		}
+
 	}
 
 	public boolean setCutomerOutputChange(int amount) {
