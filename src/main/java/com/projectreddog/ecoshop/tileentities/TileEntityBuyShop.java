@@ -169,35 +169,35 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			if (creditsOnHand > 0) {
 				// no stack & we have credits put max amt in output!!.
 
-				if (creditsOnHand > 10000) {
+				if (creditsOnHand >= 10000) {
 					int qty = creditsOnHand / 10000;
 					creditsOnHand = creditsOnHand - 10000 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_TENTHOUSAND, qty);
-				} else if (creditsOnHand > 5000) {
+				} else if (creditsOnHand >= 5000) {
 					int qty = creditsOnHand / 5000;
 					creditsOnHand = creditsOnHand - 5000 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_FIVETHOUSAND, qty);
-				} else if (creditsOnHand > 1000) {
+				} else if (creditsOnHand >= 1000) {
 					int qty = creditsOnHand / 1000;
 					creditsOnHand = creditsOnHand - 1000 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_ONETHOUSAND, qty);
-				} else if (creditsOnHand > 500) {
+				} else if (creditsOnHand >= 500) {
 					int qty = creditsOnHand / 500;
 					creditsOnHand = creditsOnHand - 500 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_FIVEHUNDRED, qty);
-				} else if (creditsOnHand > 100) {
+				} else if (creditsOnHand >= 100) {
 					int qty = creditsOnHand / 100;
 					creditsOnHand = creditsOnHand - 100 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_ONEHUNDRED, qty);
-				} else if (creditsOnHand > 20) {
+				} else if (creditsOnHand >= 20) {
 					int qty = creditsOnHand / 20;
 					creditsOnHand = creditsOnHand - 20 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_TWENTY, qty);
-				} else if (creditsOnHand > 10) {
+				} else if (creditsOnHand >= 10) {
 					int qty = creditsOnHand / 10;
 					creditsOnHand = creditsOnHand - 10 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_TEN, qty);
-				} else if (creditsOnHand > 5) {
+				} else if (creditsOnHand >= 5) {
 					int qty = creditsOnHand / 5;
 					creditsOnHand = creditsOnHand - 5 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_FIVE, qty);
