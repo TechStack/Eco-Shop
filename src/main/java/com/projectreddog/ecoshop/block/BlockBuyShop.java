@@ -6,13 +6,16 @@ import com.projectreddog.ecoshop.network.EcoShopStoreOwnerRequestToServer;
 import com.projectreddog.ecoshop.reference.Reference;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockBuyShop extends BlockContainerEcoShop {
-	// TODO need to DROP inventory if the block is broken ! (DO NOT DROP Upgrades?)
 	public BlockBuyShop() {
 		super();
 		this.setBlockName(Reference.BLOCK_BUYSHOP);
@@ -59,9 +62,13 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 
 			return true;
 		} else if (te != null && playerIn.isSneaking()) {
-			// TODO NEED TO CHECK FOR OWNER
 			if (te instanceof TileEntityBuyShop) {
-				playerIn.openGui(EcoShop.instance, Reference.GUI_BLOCK_BUY_SHOP_OWNER, worldIn, x, y, z);
+				if (!worldIn.isRemote) {
+					// only set it on the server side. client will get it in the gui
+					if (((TileEntityBuyShop) te).getOwner() == null) {
+						playerIn.openGui(EcoShop.instance, Reference.GUI_BLOCK_BUY_SHOP_OWNER, worldIn, x, y, z);
+					}
+				}
 			}
 			return true;
 		} else {
@@ -90,4 +97,28 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 		}
 		return 0.0f;
 	}
+
+	@Override
+	public void breakBlock(World worldIn, int x, int y, int z, Block block, int meta) {
+		TileEntity tileentity = worldIn.getTileEntity(x, y, z);
+
+		if (tileentity instanceof IInventory) {
+			dropInventoryItems(worldIn, x, y, z, (IInventory) tileentity);
+		}
+
+		super.breakBlock(worldIn, x, y, z, block, meta);
+	}
+
+	private static void dropInventoryItems(World worldIn, double x, double y, double z, IInventory inventory) {
+		for (int i = 0; i < inventory.getSizeInventory(); ++i) {
+			ItemStack itemstack = inventory.getStackInSlot(i);
+
+			if (itemstack != null) {
+				EntityItem entityitem = new EntityItem(worldIn, x, y, z, itemstack);
+
+				worldIn.spawnEntityInWorld(entityitem);
+			}
+		}
+	}
+
 }

@@ -8,6 +8,7 @@ import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
 import com.projectreddog.ecoshop.item.ItemUnlimitedInventory;
 import com.projectreddog.ecoshop.reference.Reference;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -126,8 +127,24 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 					}
 				} else {
 					// Its a different item so pop it out !
+					if (inventory[27] != null) {
+						ItemStack item = inventory[27];
+						EntityItem entityItem = new EntityItem(worldObj, this.xCoord, this.yCoord + 1, this.zCoord, item);
+
+						if (item.hasTagCompound()) {
+							entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
+						}
+
+						float factor = 0.05F;
+						// entityItem.motionX = rand.nextGaussian() * factor;
+						entityItem.motionY = 0;
+						// entityItem.motionZ = rand.nextGaussian() * factor;
+						entityItem.forceSpawn = true;
+						worldObj.spawnEntityInWorld(entityItem);
+						// item.stackSize = 0;
+					}
 					inventory[27] = null; // Remove the item !
-					// TODO : Add code to remove this stack & spawn it in the world !
+
 				}
 			} else {
 				// input has an item output not so put it in output
@@ -153,7 +170,24 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				inventory[28] = null;
 			} else {
 				// its not a credit drop it on the ground in the world
-				// TODO spawn this in the world
+
+				if (isInput != null) {
+					ItemStack item = isInput;
+					EntityItem entityItem = new EntityItem(worldObj, this.xCoord, this.yCoord + 1, this.zCoord, item);
+
+					if (item.hasTagCompound()) {
+						entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
+					}
+
+					float factor = 0.05F;
+					// entityItem.motionX = rand.nextGaussian() * factor;
+					entityItem.motionY = 0;
+					// entityItem.motionZ = rand.nextGaussian() * factor;
+					entityItem.forceSpawn = true;
+					worldObj.spawnEntityInWorld(entityItem);
+					// item.stackSize = 0;
+				}
+
 			}
 		}
 
@@ -164,7 +198,6 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		ItemStack isCreditOut = inventory[30];
 		if (isCreditOut != null) {
 			// we have a stack in the output ! for now keep as is
-			// TODO make this stack grow to max size if we have the $$$ in place
 		} else {
 			if (creditsOnHand > 0) {
 				// no stack & we have credits put max amt in output!!.
@@ -217,7 +250,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	// Item item = inventory[0].getItem();
 	// // int qty = inventory[0].stackSize;
 	// int qty = 0;
-	// // TODO replace this placeholder with real code.
+	// //
 	// for (int i = 27; i < 31; i++) {
 	// if (inventory[i] != null) {
 	// Item item2 = inventory[i].getItem();
@@ -995,7 +1028,6 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-		// TODO need to test & review this
 		return true;
 	}
 
