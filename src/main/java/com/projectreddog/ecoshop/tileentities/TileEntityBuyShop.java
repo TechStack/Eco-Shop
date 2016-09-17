@@ -201,7 +201,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 					int qty = creditsOnHand / 5;
 					creditsOnHand = creditsOnHand - 5 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_FIVE, qty);
-				} else if (creditsOnHand > 1) {
+				} else if (creditsOnHand >= 1) {
 					int qty = creditsOnHand / 1;
 					creditsOnHand = creditsOnHand - 1 * qty;
 					inventory[30] = new ItemStack(ModItems.CREDIT_ONE, qty);
@@ -354,6 +354,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 									// we have room !
 									// remove the amt of money required & spawn the items in output stacks & reduce the inventory level
 									setCutomerChange(amtPaid - CreditAmount);
+									creditsOnHand = creditsOnHand + CreditAmount;
 
 									if (itemsOnHand >= amtToSell) {
 										// enough is present in the IOH no need to pull from that output stack
@@ -441,19 +442,26 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 				// Check if the input contains enough !!
 				int customersAmt = getInputToMakePurchase();
-				if (customersAmt > 0) {
-					if (getStackInSlot(0) != null) {
-						if (customersAmt >= getStackInSlot(0).stackSize) {
-							// we have enough
-							int outputAmt = calcCustomersOutputPayment();
-							if (outputAmt > 0) {
-								// set proper remaining in input
-								setQtyInInput(customersAmt - getStackInSlot(0).stackSize);
-								// get amt in output !
-								// give $$$$ amt to output!
+				if (creditsOnHand + getCreditsFromStoredItemStack() >= CreditAmount) {
+					if (customersAmt > 0) {
+						if (getStackInSlot(0) != null) {
+							if (customersAmt >= getStackInSlot(0).stackSize) {
+								// we have enough
+								int outputAmt = calcCustomersOutputPayment();
+								if (outputAmt >= 0) {
+									// set proper remaining in input
+									setQtyInInput(customersAmt - getStackInSlot(0).stackSize);
+									// get amt in output !
+									// give $$$$ amt to output!
 
-								setCutomerOutputChange(outputAmt + CreditAmount);
+									setCutomerOutputChange(outputAmt + CreditAmount);
+									creditsOnHand = creditsOnHand - CreditAmount;
 
+									// prevent rollover issues so put output to input so it corrects with the negative amt that could otherwise be introduced :P HaCks!
+									inventory[28] = inventory[30];
+									inventory[30] = null;
+
+								}
 							}
 						}
 					}
@@ -581,7 +589,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 					}
 				}
 			} else {
-				return;
+				setInventorySlotContents(i, null);
 			}
 		}
 
@@ -1029,13 +1037,17 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 		case 3:
 
-			return creditsOnHand + (inventory[30] == null ? 0 : inventory[30].stackSize * (inventory[30].getItem() instanceof ItemCredit ? ((ItemCredit) inventory[30].getItem()).GetValue() : 0));
+			return creditsOnHand + getCreditsFromStoredItemStack();
 
 		default:
 			break;
 		}
 		return 0;
 
+	}
+
+	public int getCreditsFromStoredItemStack() {
+		return (inventory[30] == null ? 0 : inventory[30].stackSize * (inventory[30].getItem() instanceof ItemCredit ? ((ItemCredit) inventory[30].getItem()).GetValue() : 0));
 	}
 
 	public void setField(int id, int value) {
