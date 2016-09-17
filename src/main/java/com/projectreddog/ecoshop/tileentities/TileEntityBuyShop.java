@@ -10,6 +10,7 @@ import com.projectreddog.ecoshop.utility.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -437,8 +438,180 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 			} else if (mode == Reference.STORE_BLOCK_MODE_BUY) {
 				// we are buying a block
+
+				// Check if the input contains enough !!
+				int customersAmt = getInputToMakePurchase();
+				if (customersAmt > 0) {
+					if (getStackInSlot(0) != null) {
+						if (customersAmt >= getStackInSlot(0).stackSize) {
+							// we have enough
+							int outputAmt = calcCustomersOutputPayment();
+							if (outputAmt > 0) {
+								// set proper remaining in input
+								setQtyInInput(customersAmt - getStackInSlot(0).stackSize);
+								// get amt in output !
+								// give $$$$ amt to output!
+
+								setCutomerOutputChange(outputAmt + CreditAmount);
+
+							}
+						}
+					}
+				}
 			}
 		}
+	}
+
+	public boolean setCutomerOutputChange(int amount) {
+
+		int tenThousand = amount / 10000;
+		amount = amount - (tenThousand * 10000);
+
+		int fiveThousand = amount / 5000;
+		amount = amount - (fiveThousand * 5000);
+
+		int oneThousand = amount / 1000;
+		amount = amount - (oneThousand * 1000);
+
+		int fiveHundred = amount / 500;
+		amount = amount - (fiveHundred * 500);
+
+		int oneHundred = amount / 100;
+		amount = amount - (oneHundred * 100);
+
+		int twenty = amount / 20;
+		amount = amount - (twenty * 20);
+
+		int ten = amount / 10;
+		amount = amount - (ten * 10);
+
+		int five = amount / 5;
+		amount = amount - (five * 5);
+
+		int one = amount / 1;
+		amount = amount - (one * 5);
+		/// 12-26
+
+		if (tenThousand > 0) {
+			setInventorySlotContents(12, new ItemStack(ModItems.CREDIT_TENTHOUSAND, tenThousand));
+		} else {
+			setInventorySlotContents(12, null);
+		}
+
+		if (fiveThousand > 0) {
+			setInventorySlotContents(13, new ItemStack(ModItems.CREDIT_FIVETHOUSAND, fiveThousand));
+		} else {
+			setInventorySlotContents(13, null);
+		}
+		if (oneThousand > 0) {
+			setInventorySlotContents(14, new ItemStack(ModItems.CREDIT_ONETHOUSAND, oneThousand));
+		} else {
+			setInventorySlotContents(14, null);
+		}
+		if (fiveHundred > 0) {
+			setInventorySlotContents(15, new ItemStack(ModItems.CREDIT_FIVEHUNDRED, fiveHundred));
+		} else {
+			setInventorySlotContents(15, null);
+		}
+		if (oneHundred > 0) {
+			setInventorySlotContents(16, new ItemStack(ModItems.CREDIT_ONEHUNDRED, oneHundred));
+		} else {
+			setInventorySlotContents(16, null);
+		}
+		if (twenty > 0) {
+			setInventorySlotContents(17, new ItemStack(ModItems.CREDIT_TWENTY, twenty));
+		} else {
+			setInventorySlotContents(17, null);
+		}
+		if (ten > 0) {
+			setInventorySlotContents(18, new ItemStack(ModItems.CREDIT_TEN, ten));
+		} else {
+			setInventorySlotContents(18, null);
+		}
+		if (five > 0) {
+			setInventorySlotContents(19, new ItemStack(ModItems.CREDIT_FIVE, five));
+		} else {
+			setInventorySlotContents(19, null);
+		}
+		if (one > 0) {
+			setInventorySlotContents(20, new ItemStack(ModItems.CREDIT_ONE, one));
+		} else {
+			setInventorySlotContents(20, null);
+		}
+
+		// LogHelper.info("1000 x " + oneThousand + ", 500 x " + fiveHundred + ", 100 x " + oneHundred + ", 20 x " + twenty + ", 10 x " + ten + ", 5 x " + five + ", 1 x " + one);
+		return true;
+
+	}
+
+	public int calcCustomersOutputPayment() {
+		// customers output slots
+		// 12-26
+		int payAmount = 0;
+		for (int i = 12; i < 27; i++) {
+			if (getStackInSlot(i) != null) {
+				if (getStackInSlot(i).getItem() instanceof ItemCredit) {
+					payAmount = payAmount + ((ItemCredit) getStackInSlot(i).getItem()).GetValue() * getStackInSlot(i).stackSize;
+				} else {
+					// erorr occured customer has something other than cash in the machine !!
+					// ERRRRRRRR
+					return -1;
+				}
+			}
+		}
+		// LogHelper.info("payment amount :" + payAmount);
+		return payAmount;
+	}
+
+	public void setQtyInInput(int qty) {
+
+		for (int i = 3; i < 12; i++) {
+			if (qty > 0) {
+				if (getStackInSlot(0) != null) {
+					if (qty >= getStackInSlot(0).getMaxStackSize()) {
+						ItemStack is = getStackInSlot(0).copy();
+						is.stackSize = getStackInSlot(0).getMaxStackSize();
+						setInventorySlotContents(i, is);
+						qty = qty - getStackInSlot(0).getMaxStackSize();
+					} else {
+						ItemStack is = getStackInSlot(0).copy();
+						is.stackSize = qty;
+						setInventorySlotContents(i, is);
+						qty = qty - qty;
+					}
+				}
+			} else {
+				return;
+			}
+		}
+
+	}
+
+	public int getInputToMakePurchase() {
+		int amtMatch = 0;
+		ItemStack neededIS = getStackInSlot(0);
+		if (neededIS != null) {
+			Item neededItem = neededIS.getItem();
+			int amtRequired = neededIS.stackSize;
+			int neededDamage = neededIS.getItemDamage();
+
+			// 3-11
+			for (int i = 3; i < 12; i++) {
+				if (getStackInSlot(i) != null) {
+					// has item
+					if (getStackInSlot(i).getItem() == neededItem && getStackInSlot(i).getItemDamage() == neededDamage) {
+						// same item & damage
+						amtMatch = amtMatch + getStackInSlot(i).stackSize;
+					} else {
+						// error if there is something that is not a match!
+						return -1;
+					}
+				}
+			}
+
+		}
+
+		return amtMatch;
 	}
 
 	public boolean setCutomerChange(int amount) {
