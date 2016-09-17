@@ -39,7 +39,8 @@ public class SlotOwnerOnly extends Slot {
 				// no owner no way to get access bub!
 				return false;
 			}
-			if (buyShop.getOwner().getLeastSignificantBits() == MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getLeastSignificantBits() && buyShop.getOwner().getMostSignificantBits() == MinecraftServer.getServer().func_152358_ax().func_152655_a(player.getDisplayName()).getId().getMostSignificantBits()) {
+
+			if (buyShop.isOwner()) {
 				return true;
 			} else {
 				return false;
