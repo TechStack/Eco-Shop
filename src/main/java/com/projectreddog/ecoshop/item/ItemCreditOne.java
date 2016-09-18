@@ -1,15 +1,14 @@
 package com.projectreddog.ecoshop.item;
 
+import com.projectreddog.ecoshop.creativetab.CreativeTabEcoShop;
 import com.projectreddog.ecoshop.reference.Reference;
-
-import net.minecraft.creativetab.CreativeTabs;
 
 public class ItemCreditOne extends ItemCredit {
 	public ItemCreditOne() {
 		super();
 		this.setUnlocalizedName(Reference.MODID + ":" + Reference.ITEM_CREDIT_ONE);
 		this.setTextureName(Reference.MODID + ":" + Reference.ITEM_CREDIT_ONE);
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(CreativeTabEcoShop.ECOSHOP_CREATIVE_TAB);
 
 	}
 

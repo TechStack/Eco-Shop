@@ -1,6 +1,7 @@
 package com.projectreddog.ecoshop.block;
 
 import com.projectreddog.ecoshop.EcoShop;
+import com.projectreddog.ecoshop.creativetab.CreativeTabEcoShop;
 import com.projectreddog.ecoshop.init.ModNetwork;
 import com.projectreddog.ecoshop.network.EcoShopStoreOwnerRequestToServer;
 import com.projectreddog.ecoshop.reference.Reference;
@@ -23,6 +24,7 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 		// this.setBlockTextureName(Reference.MODBLOCK_MACHINE_ASSEMBLY_TABLE);
 		this.setHardness(15f);// not sure on the hardness
 		this.setStepSound(soundTypeStone);
+		this.setCreativeTab(CreativeTabEcoShop.ECOSHOP_CREATIVE_TAB);
 	}
 
 	@Override

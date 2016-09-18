@@ -521,6 +521,11 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 								if (outputAmt >= 0) {
 									// set proper remaining in input
 									setQtyInInput(customersAmt - getStackInSlot(0).stackSize);
+									if (inventory[29] != null) {
+										itemsOnHand = itemsOnHand + getStackInSlot(0).stackSize;
+									} else {
+										inventory[29] = getStackInSlot(0).copy();
+									}
 									// get amt in output !
 									// give $$$$ amt to output!
 
