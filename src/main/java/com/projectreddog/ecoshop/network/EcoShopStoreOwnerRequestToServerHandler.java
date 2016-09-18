@@ -36,7 +36,7 @@ public class EcoShopStoreOwnerRequestToServerHandler implements IMessageHandler<
 							&& ((TileEntityBuyShop) te).getOwner().getMostSignificantBits() == MinecraftServer.getServer().func_152358_ax().func_152655_a(ctx.getServerHandler().playerEntity.getDisplayName()).getId().getMostSignificantBits()) {
 						isOnwer = true;
 					}
-					ModNetwork.simpleNetworkWrapper.sendTo((new EcoShopStoreOwnerResponseToClient(message.x, message.y, message.z, ((TileEntityBuyShop) te).getOwner().getMostSignificantBits(), ((TileEntityBuyShop) te).getOwner().getLeastSignificantBits(), isOnwer)), ctx.getServerHandler().playerEntity);
+					ModNetwork.simpleNetworkWrapper.sendTo((new EcoShopStoreOwnerResponseToClient(message.x, message.y, message.z, ((TileEntityBuyShop) te).getOwner().getMostSignificantBits(), ((TileEntityBuyShop) te).getOwner().getLeastSignificantBits(), isOnwer, ((TileEntityBuyShop) te).GetOwnerName())), ctx.getServerHandler().playerEntity);
 				}
 
 			}

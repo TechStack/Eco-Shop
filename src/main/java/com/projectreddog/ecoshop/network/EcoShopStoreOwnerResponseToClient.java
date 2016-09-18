@@ -1,5 +1,6 @@
 package com.projectreddog.ecoshop.network;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 
@@ -12,12 +13,13 @@ public class EcoShopStoreOwnerResponseToClient implements IMessage {
 	public long least;
 	public long most;
 	public boolean isOwner;
+	public String ownerName;
 
 	public EcoShopStoreOwnerResponseToClient() {
 
 	}
 
-	public EcoShopStoreOwnerResponseToClient(int x, int y, int z, long most, long least, boolean isOwner) {
+	public EcoShopStoreOwnerResponseToClient(int x, int y, int z, long most, long least, boolean isOwner, String ownerName) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -25,6 +27,7 @@ public class EcoShopStoreOwnerResponseToClient implements IMessage {
 		this.most = most;
 		this.least = least;
 		this.isOwner = isOwner;
+		this.ownerName = ownerName;
 
 	}
 
@@ -36,6 +39,7 @@ public class EcoShopStoreOwnerResponseToClient implements IMessage {
 		this.most = buf.readLong();
 		this.least = buf.readLong();
 		this.isOwner = buf.readBoolean();
+		this.ownerName = ByteBufUtils.readUTF8String(buf);
 
 	}
 
@@ -47,6 +51,7 @@ public class EcoShopStoreOwnerResponseToClient implements IMessage {
 		buf.writeLong(most);
 		buf.writeLong(least);
 		buf.writeBoolean(isOwner);
+		ByteBufUtils.writeUTF8String(buf, ownerName);
 	}
 
 }

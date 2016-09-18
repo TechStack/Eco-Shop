@@ -43,6 +43,11 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	private int creditsOnHand;
 	private boolean isOwner;
+	private String ownerName; // used client side to cache the owner name
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
+	}
 
 	public int getCreditsOnHand() {
 		return creditsOnHand;
@@ -310,7 +315,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				return MinecraftServer.getServer().func_152358_ax().func_152652_a(owner).getName();
 			} else {
 				// TODO: solve client issue not getting names possilby lookup based on owner entity ID ?
-				return "";
+
+				return ownerName;
 			}
 
 		}
