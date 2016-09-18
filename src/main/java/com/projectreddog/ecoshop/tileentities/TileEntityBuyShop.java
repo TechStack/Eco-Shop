@@ -50,7 +50,13 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	public int getCreditsOnHand() {
-		return creditsOnHand;
+		if (this.worldObj.isRemote) {
+			// client
+			return creditsOnHand + getCreditsFromStoredItemStack();
+		} else {
+			// server
+			return creditsOnHand;
+		}
 	}
 
 	// last stack for ref used to save item details Ignore the stack size!
@@ -164,10 +170,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	public void consumeCreditInput() {
 		ItemStack isInput = inventory[28];
 		ItemStack isOutput = inventory[30];// not sure if needed
-		if (isOutput != null) {
-			// may not be needed
-			lastStack = isOutput.copy();
-		}
+
 		if (isInput != null) {
 			// MUST BE a credit type
 			if (isInput.getItem() instanceof ItemCredit) {
@@ -300,8 +303,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	public void setCreditAmount(int creditAmount) {
 		CreditAmount = creditAmount;
-		if (CreditAmount < 0) {
-			CreditAmount = 0;
+		if (CreditAmount < 1) {
+			CreditAmount = 1;
 		}
 	}
 
@@ -1108,52 +1111,71 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	}
 
-	public int getField(int id) {
-		switch (id) {
-		case 0:
-			return this.mode;
-		case 1:
-			return this.getCreditAmount();
-		case 2:
+	// public int getField(int id) {
+	// switch (id) {
+	// case 0:
+	// return this.mode;
+	// case 1:
+	// return this.getCreditAmount();
+	// case 2:
+	//
+	// return itemsOnHand + ((inventory[29] == null) ? 0 : inventory[29].stackSize);
+	//
+	// case 3:
+	//
+	// return creditsOnHand + getCreditsFromStoredItemStack();
+	//
+	// default:
+	// break;
+	// }
+	// return 0;
+	//
+	// }
 
+	public void setCreditsOnHand(int creditsOnHand) {
+		this.creditsOnHand = creditsOnHand;
+	}
+
+	public void setItemsOnHand(int itemsOnHand) {
+		// sb client only
+		this.itemsOnHand = itemsOnHand;
+	}
+
+	public int getItemsOnHand() {
+		if (this.worldObj.isRemote) {
+			// client
 			return itemsOnHand + ((inventory[29] == null) ? 0 : inventory[29].stackSize);
-
-		case 3:
-
-			return creditsOnHand + getCreditsFromStoredItemStack();
-
-		default:
-			break;
+		} else {
+			// server
+			return itemsOnHand;
 		}
-		return 0;
-
 	}
 
 	public int getCreditsFromStoredItemStack() {
 		return (inventory[30] == null ? 0 : inventory[30].stackSize * (inventory[30].getItem() instanceof ItemCredit ? ((ItemCredit) inventory[30].getItem()).GetValue() : 0));
 	}
 
-	public void setField(int id, int value) {
-		switch (id) {
-		case 0:
-			this.mode = value;
-			break;
-		case 1:
-			setCreditAmount(value);
-			break;
-		case 2:
-			itemsOnHand = value;
-			break;
-		case 3:
-			creditsOnHand = value;
-		default:
-			break;
-		}
+	// public void setField(int id, int value) {
+	// switch (id) {
+	// case 0:
+	// this.mode = value;
+	// break;
+	// case 1:
+	// setCreditAmount(value);
+	// break;
+	// case 2:
+	// itemsOnHand = value;
+	// break;
+	// case 3:
+	// creditsOnHand = value;
+	// default:
+	// break;
+	// }
+	//
+	// }
 
-	}
-
-	public int getFieldCount() {
-		return 4;
-	}
+	// public int getFieldCount() {
+	// return 4;
+	// }
 
 }

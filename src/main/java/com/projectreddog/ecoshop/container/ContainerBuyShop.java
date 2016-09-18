@@ -1,13 +1,16 @@
 package com.projectreddog.ecoshop.container;
 
+import com.projectreddog.ecoshop.init.ModNetwork;
 import com.projectreddog.ecoshop.inventory.SlotOwnerOnly;
 import com.projectreddog.ecoshop.inventory.SlotUpgradeOnly;
 import com.projectreddog.ecoshop.item.ItemEcoShopUpgrade;
+import com.projectreddog.ecoshop.network.EcoShopStoreUpdateGuiToClient;
 import com.projectreddog.ecoshop.tileentities.TileEntityBuyShop;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
@@ -248,29 +251,21 @@ public class ContainerBuyShop extends Container {
 
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
+		// call our own network packet to send the changes to the client
 
 		for (int i = 0; i < this.crafters.size(); ++i) {
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
-
-			// if (this.lastFuelStorage != this.buyShop.getField(0)) {
-			icrafting.sendProgressBarUpdate(this, 0, this.buyShop.getField(0));
-			// }
-			// if (this.lastRemainBurnTime != this.buyShop.getField(1)) {
-			icrafting.sendProgressBarUpdate(this, 1, this.buyShop.getField(1));
-			// }
-
-			icrafting.sendProgressBarUpdate(this, 2, this.buyShop.getField(2));
-			icrafting.sendProgressBarUpdate(this, 3, this.buyShop.getField(3));
+			if (icrafting instanceof EntityPlayerMP) {
+				EntityPlayerMP player = ((EntityPlayerMP) icrafting);
+				ModNetwork.simpleNetworkWrapper.sendTo((new EcoShopStoreUpdateGuiToClient(buyShop.xCoord, buyShop.yCoord, buyShop.zCoord, buyShop.getMode(), buyShop.getCreditAmount(), buyShop.getItemsOnHand(), buyShop.getCreditsOnHand())), player);
+			}
 
 		}
-
-		// this.lastFuelStorage = this.buyShop.getField(0);
-		// this.lastRemainBurnTime = this.buyShop.getField(1);
 
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
-		this.buyShop.setField(id, data);
+		// we set the data in the network packet handler no need to do anything here this.buyShop.setField(id, data);
 	}
 }

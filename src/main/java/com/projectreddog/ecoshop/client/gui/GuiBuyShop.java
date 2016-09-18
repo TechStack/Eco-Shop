@@ -108,7 +108,7 @@ public class GuiBuyShop extends GuiContainer {
 			fontRendererObj.drawString(buyShop.getCreditsOnHand() + " Credits remain.", 9, 58, 4210752);
 
 		} else if (buyShop.getMode() == Reference.STORE_BLOCK_MODE_SELL) {
-			fontRendererObj.drawString("We have " + buyShop.getIOH() + " in stock.", 9, 58, 4210752);
+			fontRendererObj.drawString("We have " + buyShop.getItemsOnHand() + " in stock.", 9, 58, 4210752);
 		}
 	}
 
