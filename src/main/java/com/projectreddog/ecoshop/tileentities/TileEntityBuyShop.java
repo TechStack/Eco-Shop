@@ -379,6 +379,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 	boolean hasUnlimitedInventoryUpgrade = false;
 	public boolean outputRedstoneSignal = false;
+	public boolean lastRedstoneState = false;
 
 	@Override
 	public void updateEntity() {
@@ -389,6 +390,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		if (this.worldObj.isRemote) {
 			// client
 		} else {
+			lastRedstoneState = outputRedstoneSignal;
 			if (this.worldObj != null && this.worldObj.getTotalWorldTime() % 2L == 0L) {
 				outputRedstoneSignal = false;
 				return;// every other tick only :D
@@ -565,6 +567,20 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 									inventory[30] = null;
 
 								}
+							}
+						}
+					}
+				}
+			}
+
+			// redstone updated so notifiy blocks near it!
+			if (lastRedstoneState != outputRedstoneSignal) {
+				for (int xOffset = -1; xOffset < 2; xOffset++) {
+					for (int yOffset = -1; yOffset < 2; yOffset++) {
+						for (int zOffset = -1; zOffset < 2; zOffset++) {
+							if (xOffset != 0 && yOffset != 0 && zOffset != 0) {
+
+								worldObj.notifyBlockOfNeighborChange(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset, worldObj.getBlock(xCoord, yCoord, zCoord));
 							}
 						}
 					}

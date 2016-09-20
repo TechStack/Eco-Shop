@@ -33,10 +33,6 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 		return true;
 	}
 
-	public int tickRate(World p_149738_1_) {
-		return 20;
-	}
-
 	@Override
 	public int isProvidingWeakPower(IBlockAccess blockAccess, int x, int y, int z, int p_149709_5_) {
 		return PowerOutputLevel(blockAccess, x, y, z);
