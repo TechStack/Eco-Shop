@@ -391,8 +391,21 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 			// client
 		} else {
 			lastRedstoneState = outputRedstoneSignal;
-			if (this.worldObj != null && this.worldObj.getTotalWorldTime() % 2L == 0L) {
+			if (this.worldObj != null && this.worldObj.getTotalWorldTime() % 4L == 0L) {
 				outputRedstoneSignal = false;
+
+				if (lastRedstoneState != outputRedstoneSignal) {
+					for (int xOffset = -1; xOffset < 2; xOffset++) {
+						for (int yOffset = -1; yOffset < 2; yOffset++) {
+							for (int zOffset = -1; zOffset < 2; zOffset++) {
+								// if (xOffset != 0 && yOffset != 0 && zOffset != 0) {
+
+								worldObj.notifyBlockOfNeighborChange(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset, worldObj.getBlock(xCoord, yCoord, zCoord));
+								// }
+							}
+						}
+					}
+				}
 				return;// every other tick only :D
 			}
 
@@ -578,10 +591,10 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				for (int xOffset = -1; xOffset < 2; xOffset++) {
 					for (int yOffset = -1; yOffset < 2; yOffset++) {
 						for (int zOffset = -1; zOffset < 2; zOffset++) {
-							if (xOffset != 0 && yOffset != 0 && zOffset != 0) {
+							// if (xOffset != 0 && yOffset != 0 && zOffset != 0) {
 
-								worldObj.notifyBlockOfNeighborChange(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset, worldObj.getBlock(xCoord, yCoord, zCoord));
-							}
+							worldObj.notifyBlockOfNeighborChange(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset, worldObj.getBlock(xCoord, yCoord, zCoord));
+							// }
 						}
 					}
 				}
