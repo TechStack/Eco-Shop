@@ -14,6 +14,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockBuyShop extends BlockContainerEcoShop {
@@ -25,6 +26,39 @@ public class BlockBuyShop extends BlockContainerEcoShop {
 		this.setHardness(15f);// not sure on the hardness
 		this.setStepSound(soundTypeStone);
 		this.setCreativeTab(CreativeTabEcoShop.ECOSHOP_CREATIVE_TAB);
+	}
+
+	@Override
+	public boolean canProvidePower() {
+		return true;
+	}
+
+	public int tickRate(World p_149738_1_) {
+		return 20;
+	}
+
+	@Override
+	public int isProvidingWeakPower(IBlockAccess blockAccess, int x, int y, int z, int p_149709_5_) {
+		return PowerOutputLevel(blockAccess, x, y, z);
+	}
+
+	private int PowerOutputLevel(IBlockAccess blockAccess, int x, int y, int z) {
+		TileEntity te = blockAccess.getTileEntity(x, y, z);
+		if (te instanceof TileEntityBuyShop) {
+			TileEntityBuyShop buyShop = (TileEntityBuyShop) te;
+			if (buyShop.outputRedstoneSignal) {
+				return 15;
+
+			} else {
+				return 0;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int isProvidingStrongPower(IBlockAccess blockAccess, int x, int y, int z, int p_149748_5_) {
+		return PowerOutputLevel(blockAccess, x, y, z);
 	}
 
 	@Override

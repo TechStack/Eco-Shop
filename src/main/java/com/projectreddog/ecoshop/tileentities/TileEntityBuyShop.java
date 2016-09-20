@@ -378,6 +378,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 	}
 
 	boolean hasUnlimitedInventoryUpgrade = false;
+	public boolean outputRedstoneSignal = false;
 
 	@Override
 	public void updateEntity() {
@@ -388,6 +389,11 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 		if (this.worldObj.isRemote) {
 			// client
 		} else {
+			if (this.worldObj != null && this.worldObj.getTotalWorldTime() % 2L == 0L) {
+				outputRedstoneSignal = false;
+				return;// every other tick only :D
+			}
+
 			// server
 			consumeItemInput();
 			resupplyItemOutput();
@@ -434,6 +440,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 										// enough is present in the IOH no need to pull from that output stack
 										if (!hasUnlimitedInventoryUpgrade) {
 											itemsOnHand = itemsOnHand - amtToSell;
+											outputRedstoneSignal = true;
+
 										}
 										int i = 12;
 										while (amtToSell > 0 && i < 27) {
@@ -463,6 +471,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 											}
 											i++;
 										}
+										outputRedstoneSignal = true;
 
 									} else {
 										// need to pull from IOH & slot or just slot
@@ -473,6 +482,8 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 												getStackInSlot(29).stackSize = getStackInSlot(29).stackSize - amtToSell - itemsOnHand;
 												if (getStackInSlot(29).stackSize <= 0) {
 													setInventorySlotContents(29, null);
+													outputRedstoneSignal = true;
+
 												}
 
 											}
@@ -507,7 +518,10 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 
 											}
 											i++;
+
 										}
+										outputRedstoneSignal = true;
+
 									}
 								}
 
@@ -534,11 +548,14 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 										itemsOnHand = itemsOnHand + getStackInSlot(0).stackSize;
 									} else {
 										inventory[29] = getStackInSlot(0).copy();
+
 									}
 									// get amt in output !
 									// give $$$$ amt to output!
 
 									setCutomerOutputChange(outputAmt + CreditAmount);
+									outputRedstoneSignal = true;
+
 									if (!hasUnlimitedInventoryUpgrade) {
 										creditsOnHand = creditsOnHand - CreditAmount;
 									}
