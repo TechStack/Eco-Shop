@@ -80,7 +80,7 @@ public class ContainerBuyShopOwner extends Container {
 			}
 			// places it into the tileEntity is possible since its in the player
 			// inventory
-			else if (!this.mergeItemStack(stackInSlot, 0, 40, false)) {
+			else if (!this.mergeItemStack(stackInSlot, 0, 4, false)) {
 				return null;
 			}
 
