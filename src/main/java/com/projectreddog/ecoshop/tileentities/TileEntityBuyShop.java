@@ -423,7 +423,7 @@ public class TileEntityBuyShop extends TileEntity implements ISidedInventory {
 				}
 			}
 			if (inventory[2] != null) {
-				if (inventory[1].getItem() instanceof ItemUnlimitedInventory) {
+				if (inventory[2].getItem() instanceof ItemUnlimitedInventory) {
 					// set unlimited credits
 					hasUnlimitedInventoryUpgrade = true;
 				}
